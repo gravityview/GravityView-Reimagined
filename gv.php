@@ -103,6 +103,8 @@ final class GV_Mission_Control {
 
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-entry.php';
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-entry-collection.php';
+		// Handle the request
+		require_once GRAVITYVIEW_DIR . 'includes/class-gv-request-parser.php';
 
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-form.php';
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-form-collection.php';
@@ -112,6 +114,9 @@ final class GV_Mission_Control {
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-view-settings.php';
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-view-collection.php';
 
+		// Templates
+		require_once GRAVITYVIEW_DIR . 'includes/template/class-gv-template.php';
+		require_once GRAVITYVIEW_DIR . 'includes/template-functions.php';
 	}
 
 	/**
