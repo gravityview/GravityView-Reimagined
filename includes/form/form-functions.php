@@ -1,0 +1,4 @@
+<?php
+/**
+ * Form-specific functions
+ */

@@ -51,7 +51,7 @@ final class GV_Mission_Control {
 		$this->views  = GV_View_Collection::get_instance( $this );
 		$this->forms  = GV_Form_Collection::get_instance( $this );
 		$this->parser = GV_Request_Parser::get_instance( $this );
-		
+
 	}
 
 	/**
@@ -101,18 +101,27 @@ final class GV_Mission_Control {
 	 */
 	private function includes() {
 
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-entry.php';
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-entry-collection.php';
+		require_once GRAVITYVIEW_DIR . 'includes/common-functions.php';
+
 		// Handle the request
 		require_once GRAVITYVIEW_DIR . 'includes/class-gv-request-parser.php';
 
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-form.php';
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-form-collection.php';
+		// Entries
+		require_once GRAVITYVIEW_DIR . 'includes/entry/class-gv-entry.php';
+		require_once GRAVITYVIEW_DIR . 'includes/entry/class-gv-entry-collection.php';
+		require_once GRAVITYVIEW_DIR . 'includes/entry-functions.php';
 
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-view.php';
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-view-search-criteria.php';
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-view-settings.php';
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-view-collection.php';
+		// Forms
+		require_once GRAVITYVIEW_DIR . 'includes/form/class-gv-form.php';
+		require_once GRAVITYVIEW_DIR . 'includes/form/class-gv-form-collection.php';
+		require_once GRAVITYVIEW_DIR . 'includes/form-functions.php';
+
+		// Views
+		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view.php';
+		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view-search-criteria.php';
+		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view-settings.php';
+		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view-collection.php';
+		require_once GRAVITYVIEW_DIR . 'includes/view-functions.php';
 
 		// Templates
 		require_once GRAVITYVIEW_DIR . 'includes/template/class-gv-template.php';

@@ -1,0 +1,4 @@
+<?php
+/**
+ * View-specific functions
+ */

@@ -1,0 +1,4 @@
+<?php
+/**
+ * Entry-specific functions
+ */
