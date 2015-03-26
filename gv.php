@@ -43,7 +43,16 @@ final class GV_Mission_Control {
 	 */
 	private static $instance;
 
-	private function __construct() {}
+	private function __construct() {
+
+		$this->setup_constants();
+		$this->includes();
+
+		$this->views  = GV_View_Collection::get_instance( $this );
+		$this->forms  = GV_Form_Collection::get_instance( $this );
+		$this->parser = GV_Request_Parser::get_instance( $this );
+		
+	}
 
 	/**
 	 * Throw error on object clone
@@ -72,21 +81,12 @@ final class GV_Mission_Control {
 	}
 
 	/**
-	 * @return GV_Request
+	 * @return GV_Mission_Control
 	 */
 	public static function get_instance() {
 
 		if ( empty( self::$instance ) ) {
-
 			self::$instance = new GV_Mission_Control;
-
-			self::$instance->setup_constants();
-			self::$instance->includes();
-
-			self::$instance->views  = GV_View_Collection::get_instance( $this );
-			self::$instance->forms  = GV_Form_Collection::get_instance( $this );
-			self::$instance->parser = GV_Request_Parser::get_instance( $this );
-
 		}
 
 		return self::$instance;
