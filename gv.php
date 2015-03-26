@@ -4,6 +4,7 @@
 //
 // NOT A REAL PLUGIN YET, SO NO REAL DOCBLOCK
 //
+// Version: 2.0-bleeding-edge
 //
 
 function gravityview() {
@@ -50,24 +51,24 @@ final class GV_Mission_Control {
 	 * The whole idea of the singleton design pattern is that there is a single
 	 * object therefore, we don't want the object to be cloned.
 	 *
-	 * @since 1.0
+	 * @since 2.0
 	 * @access protected
 	 * @return void
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliate-wp' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'gravityview' ), '1.0' );
 	}
 	/**
 	 * Disable unserializing of the class
 	 *
-	 * @since 1.0
+	 * @since 2.0
 	 * @access protected
 	 * @return void
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliate-wp' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'gravityview' ), '1.0' );
 	}
 
 	/**
@@ -95,7 +96,7 @@ final class GV_Mission_Control {
 	 * Include required files
 	 *
 	 * @access private
-	 * @since 1.0
+	 * @since 2.0
 	 * @return void
 	 */
 	private function includes() {
@@ -117,11 +118,11 @@ final class GV_Mission_Control {
 	 * Setup plugin constants
 	 *
 	 * @access private
+	 * @since 2.0
 	 * @return void
 	 */
 	private function setup_constants() {
 
-		/** Constants */
 		if ( ! defined( 'GRAVITYVIEW_FILE' ) ) {
 			define( 'GRAVITYVIEW_FILE', __FILE__ );
 		}
@@ -136,7 +137,7 @@ final class GV_Mission_Control {
 
 		// GravityView requires at least this version of Gravity Forms to function properly.
 		if ( ! defined( 'GV_MIN_GF_VERSION' ) ) {
-			define( 'GV_MIN_GF_VERSION', '1.8' );
+			define( 'GV_MIN_GF_VERSION', '1.9' );
 		}
 
 	}
