@@ -85,10 +85,6 @@ class GV_View_Search_Criteria {
 			return NULL;
 		}
 
-		$scalar  = array( 'is', '=', 'isnot', '<>', 'contains', 'starts_with', 'ends_with' );
-		$numeric = array( 'greater_than', '>', 'less_than', '<' );
-		$array   = array( 'in', 'not in', '!=', 'isnot', '<>', 'contains' );
-
 		if (
 			in_array( $operator, self::SCALAR_OPERATORS ) ||
 			in_array( $operator, self::NUMERIC_OPERATORS ) ||
