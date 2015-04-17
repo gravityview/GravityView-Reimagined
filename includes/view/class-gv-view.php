@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Holds the View data, including settings
+ */
 class GV_View {
 
 	/**
@@ -19,11 +22,11 @@ class GV_View {
 	 */
 	var $entry_collection;
 
+	/**
+	 * @param int|WP_Post $post_or_post_id
+	 */
 	function __construct( $post_or_post_id = 0 ) {
 
-		if( !empty( $post_or_post_id ) )_{
-
-		}
 		$this->post = get_post( $post_or_post_id );
 
 		$this->settings = new GV_View_Settings( $this );

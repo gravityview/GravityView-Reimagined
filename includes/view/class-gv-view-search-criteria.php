@@ -25,11 +25,11 @@ class GV_View_Search_Criteria {
 
 	var $field_filters = array();
 
-	const SCALAR_OPERATORS = array( 'is', '=', 'isnot', '<>', 'contains', 'starts_with', 'ends_with' );
+	private static $SCALAR_OPERATORS = array( 'is', '=', 'isnot', '<>', 'contains', 'starts_with', 'ends_with' );
 
-	const NUMERIC_OPERATORS = array( 'greater_than', '>', 'less_than', '<' );
+	private static $NUMERIC_OPERATORS = array( 'greater_than', '>', 'less_than', '<' );
 
-	const ARRAY_OPERATORS = array( 'in', 'not in', '!=', 'isnot', '<>', 'contains');
+	private static $ARRAY_OPERATORS = array( 'in', 'not in', '!=', 'isnot', '<>', 'contains');
 
 	/**
 	 * Search mode All or any
@@ -86,9 +86,9 @@ class GV_View_Search_Criteria {
 		}
 
 		if (
-			in_array( $operator, self::SCALAR_OPERATORS ) ||
-			in_array( $operator, self::NUMERIC_OPERATORS ) ||
-			in_array( $operator, self::ARRAY_OPERATORS )
+			in_array( $operator, self::$SCALAR_OPERATORS ) ||
+			in_array( $operator, self::$NUMERIC_OPERATORS ) ||
+			in_array( $operator, self::$ARRAY_OPERATORS )
 		) {
 			return $operator;
 		}

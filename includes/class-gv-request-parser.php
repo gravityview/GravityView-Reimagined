@@ -34,7 +34,7 @@ class GV_Request_Parser {
 	private static $instance;
 
 	/**
-	 * @return GV_Request
+	 * @return GV_Request_Parser
 	 */
 	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
 
@@ -50,6 +50,8 @@ class GV_Request_Parser {
 	 */
 	private function __construct( GV_Mission_Control $GV_Mission_Control ) {
 
+		$this->GV_Mission_Control = $GV_Mission_Control;
+
 		$this->initialize();
 
 	}
@@ -60,21 +62,30 @@ class GV_Request_Parser {
 	private function initialize() {
 
 		// Handle all get_posts() requests to set the post type as early as possible
-		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' );
+		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' ) );
 
 		// Handle all get_posts() requests to set the post type as early as possible
-		add_action( 'the_post', array( $this, 'action_the_post' );
+		add_action( 'the_post', array( $this, 'action_the_post' ) );
 	}
 
 	/**
 	 * Process the posts query as soon as it's prepared
 	 *
-	 * @param $WP_Query The WP_Query instance, passed by reference
+	 * @param WP_Query $WP_Query The WP_Query instance, passed by reference
 	 */
 	function action_pre_get_posts( &$WP_Query ) {
+		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' ) );
 
-		$this->is_gravityview_post_type = ( $WP_Query->get('post_type') === 'gravityview' );
+	}
 
+	/**
+	 * @return bool
+	 */
+	function is_gravityview_post_type() {
+		/** @global WP_Query $wp_query */
+		global $wp_query;
+
+		return $wp_query->get('post_type') === 'gravityview';
 	}
 
 	/**
@@ -84,8 +95,17 @@ class GV_Request_Parser {
 	 */
 	function action_the_post( &$post ) {
 
+		// TODO: @tommcfarlin - Where is a better place / What's a better way to do this?
+		if( $this->is_gravityview_post_type() ) {
+			$this->GV_Mission_Control->views->add( $post );
+		}
+
 		$this->post_has_shortcode = $this->_post_has_shortcode( $post );
 
+		// Only process for the main `the_post` request, not for subsequent requests
+		// TODO: @tom - this is an example of the crappy hacks I want to get rid of!
+		// It was recursive with the $this->GV_Mission_Control->views->add( $post ); call
+		remove_action( 'the_post', array( $this, 'action_the_post' ) );
 	}
 
 	/**

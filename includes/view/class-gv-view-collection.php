@@ -13,7 +13,7 @@ class GV_View_Collection {
 	/**
 	 * @var GV_View[]
 	 */
-	var $views;
+	var $views = array();
 
 	private static $instance;
 
@@ -45,7 +45,12 @@ class GV_View_Collection {
 	/**
 	 * @param int $id
 	 */
-	function add( GV_View $View ) {
+	function add( $View ) {
+
+		// Make sure the $View is a GV_View
+		if( ! $View instanceof GV_View ) {
+			$View = new GV_View( $View );
+		}
 
 		if( in_array( $View, $this->views ) ) {
 			return;

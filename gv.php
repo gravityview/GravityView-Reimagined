@@ -1,15 +1,22 @@
 <?php
-//
-// GravityView Refactoring Example
-//
-// NOT A REAL PLUGIN YET, SO NO REAL DOCBLOCK
-//
-// Version: 2.0-bleeding-edge
-//
+/**
+ * Plugin Name:       	GravityView Reloaded
+ * Plugin URI:        	http://gravityview.co
+ * Description:       	Create directories based on a Gravity Forms form, insert them using a shortcode, and modify how they output.
+ * Version:          	2.0-bleeding-edge
+ * Author:            	Katz Web Services, Inc.
+ * Author URI:        	http://www.katzwebservices.com
+ * Text Domain:       	gravityview
+ * License:           	GPLv2 or later
+ * License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
+ * Domain Path:			/languages
+ */
 
 function gravityview() {
 	return GV_Mission_Control::get_instance();
 }
+
+gravityview();
 
 /**
  * Processes and holds data related to the current request.
@@ -33,10 +40,16 @@ final class GV_Mission_Control {
 	var $forms;
 
 	/**
-	 * Handle processing the request
+	 * Handles processing the request
 	 * @var GV_Request_Parser
 	 */
 	var $parser;
+
+	/**
+	 * Store meta data for the current page
+	 * @var GV_Page_Meta
+	 */
+	var $page_meta;
 
 	/**
 	 * @var GV_Mission_Control
@@ -48,9 +61,10 @@ final class GV_Mission_Control {
 		$this->setup_constants();
 		$this->includes();
 
-		$this->views  = GV_View_Collection::get_instance( $this );
-		$this->forms  = GV_Form_Collection::get_instance( $this );
-		$this->parser = GV_Request_Parser::get_instance( $this );
+		$this->views     = GV_View_Collection::get_instance( $this );
+		$this->forms     = GV_Form_Collection::get_instance( $this );
+		$this->parser    = GV_Request_Parser::get_instance( $this );
+		$this->page_meta = GV_Page_Meta::get_instance( $this );
 
 	}
 
@@ -101,31 +115,34 @@ final class GV_Mission_Control {
 	 */
 	private function includes() {
 
-		require_once GRAVITYVIEW_DIR . 'includes/common-functions.php';
+		require_once GV_DIR . 'includes/common-functions.php';
 
 		// Handle the request
-		require_once GRAVITYVIEW_DIR . 'includes/class-gv-request-parser.php';
+		require_once GV_DIR . 'includes/class-gv-request-parser.php';
 
 		// Entries
-		require_once GRAVITYVIEW_DIR . 'includes/entry/class-gv-entry.php';
-		require_once GRAVITYVIEW_DIR . 'includes/entry/class-gv-entry-collection.php';
-		require_once GRAVITYVIEW_DIR . 'includes/entry-functions.php';
+		require_once GV_DIR . 'includes/entry/class-gv-entry.php';
+		require_once GV_DIR . 'includes/entry/class-gv-entry-collection.php';
+		require_once GV_DIR . 'includes/entry/entry-functions.php';
 
 		// Forms
-		require_once GRAVITYVIEW_DIR . 'includes/form/class-gv-form.php';
-		require_once GRAVITYVIEW_DIR . 'includes/form/class-gv-form-collection.php';
-		require_once GRAVITYVIEW_DIR . 'includes/form-functions.php';
+		require_once GV_DIR . 'includes/form/form-functions.php';
+		require_once GV_DIR . 'includes/form/class-gv-form.php';
+		require_once GV_DIR . 'includes/form/class-gv-form-collection.php';
 
 		// Views
-		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view.php';
-		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view-search-criteria.php';
-		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view-settings.php';
-		require_once GRAVITYVIEW_DIR . 'includes/view/class-gv-view-collection.php';
-		require_once GRAVITYVIEW_DIR . 'includes/view-functions.php';
+		require_once GV_DIR . 'includes/view/view-functions.php';
+		require_once GV_DIR . 'includes/view/class-gv-view.php';
+		require_once GV_DIR . 'includes/view/class-gv-view-search-criteria.php';
+		require_once GV_DIR . 'includes/view/class-gv-view-settings.php';
+		require_once GV_DIR . 'includes/view/class-gv-view-collection.php';
 
 		// Templates
-		require_once GRAVITYVIEW_DIR . 'includes/template/class-gv-template.php';
-		require_once GRAVITYVIEW_DIR . 'includes/template-functions.php';
+		require_once GV_DIR . 'includes/template/template-functions.php';
+		require_once GV_DIR . 'includes/template/class-gv-template.php';
+
+		// Page
+		require_once GV_DIR . 'includes/page/class-gv-page-meta.php';
 	}
 
 	/**
@@ -138,6 +155,7 @@ final class GV_Mission_Control {
 	private function setup_constants() {
 
 		if ( ! defined( 'GRAVITYVIEW_FILE' ) ) {
+			/** @define "GRAVITYVIEW_FILE" "./gv.php" */
 			define( 'GRAVITYVIEW_FILE', __FILE__ );
 		}
 
@@ -145,8 +163,9 @@ final class GV_Mission_Control {
 			define( 'GRAVITYVIEW_URL', plugin_dir_url( __FILE__ ) );
 		}
 
-		if ( ! defined( 'GRAVITYVIEW_DIR' ) ) {
-			define( 'GRAVITYVIEW_DIR', plugin_dir_path( __FILE__ ) );
+		if ( ! defined( 'GV_DIR' ) ) {
+			/** @define "GV_DIR" "./" */
+			define( 'GV_DIR', plugin_dir_path( __FILE__ ) );
 		}
 
 		// GravityView requires at least this version of Gravity Forms to function properly.

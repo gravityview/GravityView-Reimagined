@@ -3,15 +3,19 @@
 /**
  * Handle outputting the View
  * @todo HELP!
+ *
  */
-class GV_Template( GV_View_Settings $GV_View_Settings ) {
+class GV_Template {
 
 	/**
 	 * @var GV_Template_Zone[]
 	 */
 	private $zones = array();
 
-	function __construct() {
+	/**
+	 * @param GV_View_Settings $GV_View_Settings
+	 */
+	function __construct( $GV_View_Settings ) {
 
 	}
 
