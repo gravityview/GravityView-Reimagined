@@ -6,11 +6,6 @@
 class GV_Request_Parser {
 
 	/**
-	 * @var GV_Mission_Control
-	 */
-	private $GV_Mission_Control;
-
-	/**
 	 * Is the currently viewed post a `gravityview` post type?
 	 * @var boolean
 	 */
@@ -36,10 +31,10 @@ class GV_Request_Parser {
 	/**
 	 * @return GV_Request_Parser
 	 */
-	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
+	public static function get_instance() {
 
 		if( empty( self::$instance ) ) {
-			self::$instance = new self( $GV_Mission_Control );
+			self::$instance = new self;
 		}
 
 		return self::$instance;
@@ -48,9 +43,7 @@ class GV_Request_Parser {
 	/**
 	 * Add hooks
 	 */
-	private function __construct( GV_Mission_Control $GV_Mission_Control ) {
-
-		$this->GV_Mission_Control = $GV_Mission_Control;
+	private function __construct() {
 
 		$this->initialize();
 
@@ -61,27 +54,18 @@ class GV_Request_Parser {
 	 */
 	private function initialize() {
 
-		// Handle all get_posts() requests to set the post type as early as possible
-		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' ) );
-
-		// Handle all get_posts() requests to set the post type as early as possible
-		add_action( 'the_post', array( $this, 'action_the_post' ) );
-	}
-
-	/**
-	 * Process the posts query as soon as it's prepared
-	 *
-	 * @param WP_Query $WP_Query The WP_Query instance, passed by reference
-	 */
-	function action_pre_get_posts( &$WP_Query ) {
-		add_action( 'pre_get_posts', array( $this, 'action_pre_get_posts' ) );
-
+		add_action( 'wp', array( $this, 'action_wp' ) );
 	}
 
 	/**
 	 * @return bool
 	 */
-	function is_gravityview_post_type() {
+	function is_gravityview_post_type( $post = null ) {
+
+		if( $post ) {
+			return get_post_type( $post ) === 'gravityview';
+		}
+
 		/** @global WP_Query $wp_query */
 		global $wp_query;
 
@@ -91,20 +75,21 @@ class GV_Request_Parser {
 	/**
 	 * Process the $post data as soon as it's set up
 	 *
-	 * @param WP_Post &$post The Post object (passed by reference).
+	 * @param WP $WP
 	 */
-	function action_the_post( &$post ) {
+	function action_wp( &$WP ) {
+		global $post;
 
 		// TODO: @tommcfarlin - Where is a better place / What's a better way to do this?
-		if( $this->is_gravityview_post_type() ) {
-			$this->GV_Mission_Control->views->add( $post );
+		if( $this->is_gravityview_post_type( $post ) ) {
+			gravityview()->views->add( $post );
 		}
 
 		$this->post_has_shortcode = $this->_post_has_shortcode( $post );
 
 		// Only process for the main `the_post` request, not for subsequent requests
 		// TODO: @tom - this is an example of the crappy hacks I want to get rid of!
-		// It was recursive with the $this->GV_Mission_Control->views->add( $post ); call
+		// It was recursive with the gravityview()->views->add( $post ); call
 		remove_action( 'the_post', array( $this, 'action_the_post' ) );
 	}
 
