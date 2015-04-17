@@ -87,10 +87,6 @@ class GV_Request_Parser {
 
 		$this->post_has_shortcode = $this->_post_has_shortcode( $post );
 
-		// Only process for the main `the_post` request, not for subsequent requests
-		// TODO: @tom - this is an example of the crappy hacks I want to get rid of!
-		// It was recursive with the gravityview()->views->add( $post ); call
-		remove_action( 'the_post', array( $this, 'action_the_post' ) );
 	}
 
 	/**

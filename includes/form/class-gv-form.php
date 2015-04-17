@@ -2,14 +2,10 @@
 
 /**
  * Interact with the Gravity Forms form array
+ * Can be used as an array, because the magic functions.
  */
 class GV_Form {
 
-	/**
-	 * Gravity Forms Form ID
-	 * @var int
-	 */
-	var $id = 0;
 
 	private $_data;
 
@@ -18,14 +14,35 @@ class GV_Form {
 	 */
 	function __construct( $id_or_array ) {
 
-		$this->id = $id;
+		$form = is_array( $id_or_array ) ? $id_or_array : GVCommon::get_form( $id_or_array );
+
+		// Map the form data
+		foreach( $form as $key => $value ) {
+			$this->__set( $key, $value );
+		}
 
 	}
 
+	/**
+	 * Magic method to set the property using array notation
+	 *
+	 * @param $property
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public function __set( $property, $value ) {
 		return $this->_data[ $property ] = $value;
 	}
 
+	/**
+	 * Magic method to get the property using array notation
+	 *
+	 * @param $property
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public function __get( $property ) {
 		if ( array_key_exists( $property, $this->_data ) ) {
 			return $this->_data[ $property ];

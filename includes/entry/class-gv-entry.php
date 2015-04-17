@@ -3,7 +3,6 @@
 /**
  * Class GV_Entry
  *
- * @todo Move GVCommon::get_entry()
  */
 class GV_Entry {
 
@@ -40,7 +39,7 @@ class GV_Entry {
 
 		$this->entry = $entry;
 
-		$this->form = GV_Form_Collection::get_instance()->get( $this->entry['form_id'] );
+		$this->form = gravityview()->forms->get( $this->entry['form_id'] );
 
 	}
 

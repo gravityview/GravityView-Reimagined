@@ -49,6 +49,6 @@ class GV_Form_Collection {
 			return;
 		}
 
-		$this->forms[ $id ] = GVCommon::get_form( $id );
+		$this->forms[ $id ] = new GV_Form( $id );
 	}
 }
