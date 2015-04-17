@@ -9,9 +9,9 @@ class GV_Entry {
 
 	/**
 	 * The entry ID
-	 * @var int
+	 * @var_dump int
 	 */
-	public $id;
+	public $ID;
 
 	/**
 	 * The entry slug. May be the same as the $id
@@ -33,17 +33,19 @@ class GV_Entry {
 	function __construct( $id_slug_or_array ) {
 
 		if( is_array( $id_slug_or_array ) ) {
-			$this->entry = $id_slug_or_array;
+			$entry = $id_slug_or_array;
 		} else {
-			$this->entry = GVCommon::get_entry( $id, true );
+			$entry = GVCommon::get_entry( $id_slug_or_array, true );
 		}
 
-		$this->form = GV_Forms::get_instance()->get( $this->entry['form_id'] );
+		$this->entry = $entry;
+
+		$this->form = GV_Form_Collection::get_instance()->get( $this->entry['form_id'] );
 
 	}
 
 	function get_meta() {
-		return GVCommon::get_entry_meta( $this->id );
+		return GVCommon::get_entry_meta( $this->ID );
 	}
 
 	/**
@@ -54,7 +56,7 @@ class GV_Entry {
 	}
 
 	function get_id() {
-		return $this->id;
+		return $this->ID;
 	}
 
 }

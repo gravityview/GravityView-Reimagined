@@ -6,28 +6,21 @@
 class GV_View_Collection {
 
 	/**
-	 * @var GV_Mission_Control
-	 */
-	private $GV_Mission_Control;
-
-	/**
 	 * @var GV_View[]
 	 */
 	var $views = array();
 
 	private static $instance;
 
-	private function __construct( GV_Mission_Control $GV_Mission_Control ) {
-		$this->GV_Mission_Control = $GV_Mission_Control;
-	}
+	private function __construct() {}
 
 	/**
 	 * @return GV_View_Collection
 	 */
-	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
+	public static function get_instance() {
 
 		if( empty( self::$instance ) ) {
-			self::$instance = new self( $GV_Mission_Control );
+			self::$instance = new self;
 		}
 
 		return self::$instance;
@@ -44,6 +37,8 @@ class GV_View_Collection {
 
 	/**
 	 * @param int $id
+	 *
+	 * @return boolean False: Already existed, True: added
 	 */
 	function add( $View ) {
 
@@ -53,9 +48,11 @@ class GV_View_Collection {
 		}
 
 		if( in_array( $View, $this->views ) ) {
-			return;
+			return false;
 		}
 
-		$this->views[ $View->id ] = $View;
+		$this->views[ $View->ID ] = $View;
+
+		return true;
 	}
 }

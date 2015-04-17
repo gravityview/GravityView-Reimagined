@@ -8,15 +8,39 @@
 class GV_Template {
 
 	/**
+	 * @var GV_View
+	 */
+	var $View;
+
+	/**
 	 * @var GV_Template_Zone[]
 	 */
 	private $zones = array();
 
-	/**
-	 * @param GV_View_Settings $GV_View_Settings
-	 */
-	function __construct( $GV_View_Settings ) {
+	private $template_id;
 
+	/**
+	 * @param GV_View $GV_View
+	 */
+	function __construct( $GV_View ) {
+
+		$this->View = $GV_View;
+
+		$this->set_template_id();
+
+		$this->set_zones();
+	}
+
+	function set_template_id() {
+		$this->template_id = GVCommon::get_meta_template_id( $this->View->ID );
+	}
+
+	/**
+	 * Set the field configuration for the View
+	 *
+	 */
+	function set_zones() {
+		$this->zones = GVCommon::get_directory_fields( $this->View->ID );
 	}
 
 	function render() {

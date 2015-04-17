@@ -10,7 +10,7 @@ class GV_View_Search_Criteria {
 	/**
 	 * @var GV_View
 	 */
-	private $view;
+	private $View;
 
 	/**
 	 * Entry status, ie: `active`
@@ -49,7 +49,7 @@ class GV_View_Search_Criteria {
 	);
 
 	public function __construct( GV_View $GV_View ) {
-		$this->view = $GV_View;
+		$this->View = $GV_View;
 
 		/**
 		 * TODO: build search!

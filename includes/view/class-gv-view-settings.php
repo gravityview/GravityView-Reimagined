@@ -8,7 +8,7 @@ class GV_View_Settings {
 	/**
 	 * @var GV_View
 	 */
-	var $view;
+	var $View;
 
 	/**
 	 * @var array
@@ -17,21 +17,48 @@ class GV_View_Settings {
 
 	function __construct( GV_View &$GV_View ) {
 
-		$this->view = $GV_View;
+		$this->View = $GV_View;
 
-		$this->settings = $this->get_settings();
+		$this->set_settings();
 	}
 
-	function get_form() {
-		return GVCommon::get_meta_form_id( $GV_View->id );
+	function get_form_id() {
+		return GVCommon::get_meta_form_id( $this->View->ID );
 	}
 
-	function get_template_id() {
-		return GVCommon::get_meta_template_id( $GV_View->id );
+	/**
+	 * @uses  GravityView_View_Data::get_default_args()
+	 * @return array
+	 */
+	private function get_default_settings() {
+		return GravityView_View_Data::get_default_args();
 	}
 
+	/**
+	 * Set the settings for a View
+	 *
+	 * @param  int $post_id View ID
+	 * @return array          Associative array of settings with plugin defaults used if not set by the View
+	 */
+	private function set_settings() {
+
+		$post_settings = get_post_meta( $this->View->ID, '_gravityview_template_settings', true );
+
+		$defaults = $this->get_default_settings();
+
+		$this->settings = wp_parse_args( (array)$post_settings, $defaults );
+	}
+
+	/**
+	 * Get the settings for the current View
+	 * @return array View settings
+	 */
 	function get_settings() {
-		$this->settings = !empty( $this->settings ) ? $this->settings : GVCommon::get_template_settings( $this->view->post->id );
+
+		if( empty( $this->settings ) ) {
+			$this->set_settings();
+		}
+
 		return $this->settings;
 	}
 
