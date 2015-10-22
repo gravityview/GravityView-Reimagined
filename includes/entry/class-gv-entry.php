@@ -14,7 +14,7 @@ class GV_Entry {
 
 	/**
 	 * The entry slug. May be the same as the $id
-	 * @var id|string
+	 * @var int|string
 	 */
 	var $slug;
 

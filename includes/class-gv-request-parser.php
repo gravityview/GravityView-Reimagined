@@ -2,8 +2,11 @@
 
 /**
  * Handle parsing the post data to determine what content exists
+ *
+ * Is this a `gravityview` Custom Post Type?
+ * If not, are there embedded `[gravityview]` shortcodes?
  */
-class GV_Request_Parser {
+final class GV_Request_Parser {
 
 	/**
 	 * Is the currently viewed post a `gravityview` post type?
@@ -61,13 +64,13 @@ class GV_Request_Parser {
 	 * @return bool
 	 */
 	function is_gravityview_post_type( $post = null ) {
+		/** @global WP_Query $wp_query */
+		global $wp_query;
 
 		if( $post ) {
 			return get_post_type( $post ) === 'gravityview';
 		}
 
-		/** @global WP_Query $wp_query */
-		global $wp_query;
 
 		return $wp_query->get('post_type') === 'gravityview';
 	}

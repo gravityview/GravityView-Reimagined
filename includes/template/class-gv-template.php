@@ -17,7 +17,10 @@ class GV_Template {
 	 */
 	private $zones = array();
 
-	private $template_id;
+	/**
+	 * @var string Template identifier
+	 */
+	private $template_slug;
 
 	/**
 	 * @param GV_View $GV_View
@@ -26,13 +29,13 @@ class GV_Template {
 
 		$this->View = $GV_View;
 
-		$this->set_template_id();
+		$this->set_template_slug();
 
 		$this->set_zones();
 	}
 
-	function set_template_id() {
-		$this->template_id = GVCommon::get_meta_template_id( $this->View->ID );
+	function set_template_slug() {
+		$this->template_slug = GVCommon::get_meta_template_id( $this->View->ID );
 	}
 
 	/**

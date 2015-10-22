@@ -12,7 +12,7 @@ class GV_Page_Meta {
 	private $title = '';
 
 	/**
-	 * Page Description <meta name="description" tag value
+	 * Page Description <meta name="description"> tag value
 	 * @var string
 	 */
 	private $description = '';
@@ -28,6 +28,7 @@ class GV_Page_Meta {
 	 * @var string
 	 */
 	private $image = '';
+
 
 	/**
 	 * @var GV_Page_Meta
@@ -56,7 +57,7 @@ class GV_Page_Meta {
 	/**
 	 * @return string
 	 */
-	public function getTitle() {
+	public function get_title() {
 		return $this->title;
 	}
 
@@ -108,7 +109,5 @@ class GV_Page_Meta {
 	public function set_image( $image ) {
 		$this->image = $image;
 	}
-
-
 
 }
