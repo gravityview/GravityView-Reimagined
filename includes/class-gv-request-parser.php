@@ -31,10 +31,10 @@ class GV_Request_Parser {
 	/**
 	 * @return GV_Request_Parser
 	 */
-	public static function get_instance() {
+	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
 
 		if( empty( self::$instance ) ) {
-			self::$instance = new self;
+			self::$instance = new self( $GV_Mission_Control );
 		}
 
 		return self::$instance;
@@ -43,7 +43,7 @@ class GV_Request_Parser {
 	/**
 	 * Add hooks
 	 */
-	private function __construct() {
+	private function __construct(  GV_Mission_Control $GV_Mission_Control ) {
 
 		$this->initialize();
 

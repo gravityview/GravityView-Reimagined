@@ -12,15 +12,15 @@ class GV_View_Collection {
 
 	private static $instance;
 
-	private function __construct() {}
+	private function __construct( GV_Mission_Control $GV_Mission_Control ) {}
 
 	/**
 	 * @return GV_View_Collection
 	 */
-	public static function get_instance() {
+	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
 
 		if( empty( self::$instance ) ) {
-			self::$instance = new self;
+			self::$instance = new self( $GV_Mission_Control );
 		}
 
 		return self::$instance;
