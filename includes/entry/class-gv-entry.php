@@ -18,6 +18,9 @@ class GV_Entry {
 	 */
 	var $slug;
 
+	/**
+	 * @type array Hold the original Gravity Forms entry array
+	 */
 	var $entry;
 
 	/**
