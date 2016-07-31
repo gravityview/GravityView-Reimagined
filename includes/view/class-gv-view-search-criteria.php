@@ -63,7 +63,7 @@ class GV_View_Search_Criteria {
 	/**
 	 * @param array $filter
 	 */
-	public function add_filter( $filter ) {
+	public function add( $filter ) {
 
 		if ( ! isset( $filter['value'] ) ) {
 			return;
@@ -79,7 +79,7 @@ class GV_View_Search_Criteria {
 	 *
 	 * @return string|null If valid operator is passed, use it. Otherwise, return NULL
 	 */
-	private function validate_filter_operator( $filter ) {
+	private function validate_operator( $filter ) {
 
 		if ( ! isset( $filter['operator'] ) ) {
 			return NULL;
