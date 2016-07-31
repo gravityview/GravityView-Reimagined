@@ -27,7 +27,7 @@ class GV_View_Search_Criteria {
 
 	private static $SCALAR_OPERATORS = array( 'is', '=', 'isnot', '<>', 'contains', 'starts_with', 'ends_with' );
 
-	private static $NUMERIC_OPERATORS = array( 'greater_than', '>', 'less_than', '<' );
+	private static $NUMERIC_OPERATORS = array( 'is', '=', '!=', 'isnot', 'greater_than', '>', 'less_than', '<' );
 
 	private static $ARRAY_OPERATORS = array( 'in', 'not in', '!=', 'isnot', '<>', 'contains');
 
