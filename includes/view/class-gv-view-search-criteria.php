@@ -25,6 +25,18 @@ class GV_View_Search_Criteria {
 
 	var $field_filters = array();
 
+	/**
+	 * Filters that match any result
+	 * @type array
+	 */
+	var $any_filters = array();
+
+	/**
+	 * Filters that match all results.
+	 * @type array
+	 */
+	var $all_filters = array();
+
 	private static $SCALAR_OPERATORS = array( 'is', '=', 'isnot', '<>', 'contains', 'starts_with', 'ends_with' );
 
 	private static $NUMERIC_OPERATORS = array( 'is', '=', '!=', 'isnot', 'greater_than', '>', 'less_than', '<' );
