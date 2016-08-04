@@ -18,7 +18,8 @@ function gravityview() {
 		include_once plugin_dir_path( __FILE__ ) . 'class-gv-mission-control.php';
 	}
 	
-	return GV_Mission_Control::get_istance();
+	return GV_Mission_Control::get_instance();
 }
 
 gravityview();
+
