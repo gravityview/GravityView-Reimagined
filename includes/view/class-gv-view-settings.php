@@ -21,7 +21,7 @@ final class View_Settings extends \ArrayObject {
 
 		$this->View = $GV_View;
 
-		$this->set_settings();
+		parent::__construct( $this->parse_settings( $atts ), 2 );
 	}
 
 	function get_form_id() {
@@ -39,16 +39,22 @@ final class View_Settings extends \ArrayObject {
 	/**
 	 * Set the settings for a View
 	 *
-	 * @param  int $post_id View ID
+	 * @param  array $atts Custom settings to override default View settings
 	 * @return array          Associative array of settings with plugin defaults used if not set by the View
 	 */
-	private function set_settings() {
+	private function parse_settings( $atts = array() ) {
 
-		$post_settings = get_post_meta( $this->View->ID, '_gravityview_template_settings', true );
+		$post_settings = get_post_meta( $this->view->ID, '_gravityview_template_settings', true );
 
 		$defaults = $this->get_default_settings();
 
-		$this->settings = wp_parse_args( (array)$post_settings, $defaults );
+		$post_settings = wp_parse_args( (array)$post_settings, $defaults );
+
+		$final_settings = wp_parse_args( $atts, $post_settings );
+
+		$final_settings['id'] = $this->view->ID;
+
+		return $final_settings;
 	}
 
 	/**

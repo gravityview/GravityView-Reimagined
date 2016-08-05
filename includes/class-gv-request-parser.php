@@ -88,6 +88,7 @@ final class Request_Parser {
 		// TODO: @tommcfarlin - Where is a better place / What's a better way to do this?
 		if( $this->is_gravityview_post_type( $post ) ) {
 			gravityview()->views->add( $post );
+				gravityview()->views->add( $view_id, $view_atts );
 		}
 
 		$this->post_has_shortcode = $this->_post_has_shortcode( $post );

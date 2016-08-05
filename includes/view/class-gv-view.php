@@ -27,7 +27,7 @@ final class View {
 	/**
 	 * @param int|WP_Post $post_or_post_id
 	 */
-	function __construct( $post_or_post_id = 0 ) {
+	function __construct( $post_or_post_id = 0, $atts = array() ) {
 
 		$this->post = get_post( $post_or_post_id );
 
