@@ -50,7 +50,7 @@ final class View_Collection extends \ArrayIterator {
 			$view_to_add = new View( $view_to_add, $atts );
 		}
 
-		if( in_array( $View, $this->views ) ) {
+		$this->offsetSet( $view_to_add->get_hash(), $view_to_add );
 			return false;
 		}
 

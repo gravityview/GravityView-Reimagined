@@ -37,6 +37,16 @@ final class View {
 
 		$this->template = new GV_Template( $this );
 
+	/**
+	 * Get a hash of a View based on the settings, not the entries it contains. Used to determine uniqueness.
+	 *
+	 * @see View_Collection::is_ready_to_add()
+	 * @return string hash of the View, used to determine uniqueness
+	 */
+	function get_hash() {
+		return sprintf( '%d-%s', $this->ID, sha1( serialize( array( $this->settings, $this->search_criteria, $this->template ) ) ) );
+	}
+
 		$this->search_criteria = new GV_View_Search_Criteria( $this );
 
 		$this->set_entries();
