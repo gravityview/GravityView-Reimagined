@@ -10,22 +10,22 @@ final class View_Settings extends \ArrayObject {
 	/**
 	 * @var View
 	 */
-	var $View;
-
-	/**
-	 * @var array
-	 */
-	var $settings;
+	var $view;
 
 	function __construct( View &$GV_View, $atts = array() ) {
 
-		$this->View = $GV_View;
+		$this->view = $GV_View;
 
 		parent::__construct( $this->parse_settings( $atts ), 2 );
 	}
 
+	/**
+	 * Alias of View::get_form_id()
+	 * 
+	 * @return false|string
+	 */
 	function get_form_id() {
-		return GVCommon::get_meta_form_id( $this->View->ID );
+		return $this->view->get_form_id();
 	}
 
 	/**
@@ -62,21 +62,26 @@ final class View_Settings extends \ArrayObject {
 	 * @return array View settings
 	 */
 	function get_settings() {
-
-		if( empty( $this->settings ) ) {
-			$this->set_settings();
-		}
-
-		return $this->settings;
+		return $this->getArrayCopy();
 	}
 
 	/**
 	 *
 	 * @param string $key Key to the setting requested
 	 *
-	 * @return mixed|bool Setting value; False if not exists.
+	 * @return mixed|false The value at the specified index or false.
 	 */
 	function get( $key ) {
-		return isset( $this->settings[ $key ] ) ? $this->settings[ $key ] : false;
+		return $this->offsetGet( $key );
+	}
+
+	/**
+	 * @param $key
+	 * @param $value
+	 *
+	 * @return void
+	 */
+	function set( $key, $value ) {
+		$this->offsetSet( $key, $value );
 	}
 }
