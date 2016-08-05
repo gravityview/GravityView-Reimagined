@@ -16,7 +16,33 @@ final class Form_Collection {
 	 */
 	private static $instance;
 
-	private function __construct( GV_Mission_Control $GV_Mission_Control ) {}
+	/**
+	 * Throw error on object clone
+	 *
+	 * The whole idea of the singleton design pattern is that there is a single
+	 * object therefore, we don't want the object to be cloned.
+	 *
+	 * @since 2.0
+	 * @access protected
+	 * @return void
+	 */
+	public function __clone() {
+		// Cloning instances of the class is forbidden
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'gravityview' ), '1.0' );
+	}
+	/**
+	 * Disable unserializing of the class
+	 *
+	 * @since 2.0
+	 * @access protected
+	 * @return void
+	 */
+	public function __wakeup() {
+		// Unserializing instances of the class is forbidden
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'gravityview' ), '1.0' );
+	}
+
+	private function __construct( Mission_Control $GV_Mission_Control ) {}
 
 	/**
 	 * We only want one collection of forms
