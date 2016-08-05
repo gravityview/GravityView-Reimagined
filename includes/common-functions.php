@@ -74,7 +74,7 @@ function gravityview_parse_shortcodes( $content = '' ) {
 				continue;
 			}
 
-			$return[ $args['id'] ] = $args;
+			$return[] = $args;
 		}
 	}
 

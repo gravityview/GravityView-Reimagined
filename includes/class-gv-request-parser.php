@@ -173,8 +173,8 @@ final class Request_Parser {
 
 			$this->post_has_shortcode = ! empty( $shortcodes );
 
-			foreach ( $shortcodes as $view_id => $view_atts ) {
-				gravityview()->views->add( $view_id, $view_atts );
+			foreach ( $shortcodes as $view_atts ) {
+				gravityview()->views->add( $view_atts['id'], $view_atts );
 			}
 		}
 	}
