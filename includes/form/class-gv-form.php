@@ -4,7 +4,7 @@ use GV;
 
 /**
  * Interact with the Gravity Forms form array
- * Can be used as an array, because the magic functions.
+ * Can be used as an array, because it extends ArrayObject
  */
 final class Form extends \ArrayObject {
 
@@ -13,61 +13,62 @@ final class Form extends \ArrayObject {
 	 */
 	function __construct( $id_or_array ) {
 
-		$form = is_array( $id_or_array ) ? $id_or_array : GVCommon::get_form( $id_or_array );
+		$form = is_array( $id_or_array ) ? $id_or_array : \GFAPI::get_form( $id_or_array );
 
-		// Map the form data
-		foreach( $form as $key => $value ) {
-			$this->__set( $key, $value );
+		if( ! $form ) {
+			return;
 		}
 
+		parent::__construct( $form );
 	}
 
 	/**
-	 * Magic method to set the property using array notation
+	 * Return an array representation.
 	 *
-	 * @param $property
-	 * @param $value
-	 *
-	 * @return mixed
+	 * @return array Array representation.
 	 */
-	public function __set( $property, $value ) {
-		return $this->_data[ $property ] = $value;
+	public function to_array() {
+		return $this->getArrayCopy();
 	}
 
-	/**
-	 * Magic method to get the property using array notation
-	 *
-	 * @param $property
-	 * @param $value
-	 *
-	 * @return mixed
-	 */
-	public function __get( $property ) {
-		if ( array_key_exists( $property, $this->_data ) ) {
-			return $this->_data[ $property ];
-		}
+	public function get_notifications() {
+		return $this->offsetGet( 'notifications' );
+	}
 
-		return NULL;
+	public function get_confirmations() {
+		return $this->offsetGet( 'confirmations' );
+	}
+
+	public function get_id() {
+		return $this->offsetGet( 'id' );
+	}
+
+	public function get_title() {
+		return $this->offsetGet( 'title' );
+	}
+
+	public function get_description() {
+		return $this->offsetGet( 'description' );
 	}
 
 	/**
 	 * Return array of fields' id and label, for a given Form ID
 	 *
-	 * @see GVCommon::get_form_fields
+	 * @see \GVCommon::get_form_fields
 	 *
 	 * @access public
 	 * @param string|array $form_id (default: '') or $form object
 	 * @return array
 	 */
 	function get_fields( $add_default_properties = false, $include_parent_field = true ) {
-		return GVCommon::get_form_fields( $this->_data, $add_default_properties, $include_parent_field_ );
+		return \GVCommon::get_form_fields( $this->data, $add_default_properties, $include_parent_field_ );
 	}
 
 	/**
-	 * @see GVCommon::get_connected_views
+	 * @see \GVCommon::get_connected_views
 	 * @return array
 	 */
 	function get_connected_views() {
-		return GVCommon::get_connected_views( $this->id );
+		return \GVCommon::get_connected_views( $this->id );
 	}
 }
