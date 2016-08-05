@@ -56,10 +56,10 @@ final class View {
 	 * Get a hash of a View based on the settings, not the entries it contains. Used to determine uniqueness.
 	 *
 	 * @see View_Collection::is_ready_to_add()
-	 * @return string hash of the View, used to determine uniqueness
+	 * @return string Hash of the View, used to determine uniqueness. In following format: "{View ID}-{hash}"
 	 */
 	function get_hash() {
-		return sprintf( '%d-%s', $this->ID, sha1( serialize( array( $this->settings, $this->search_criteria, $this->template ) ) ) );
+		return sprintf( '%d-%s', $this->ID, substr( hash( 'md4', serialize( array( $this->settings, $this->search_criteria, $this->template ) ) ), 0, 16 ) );
 	}
 
 	/**
