@@ -11,21 +11,32 @@ final class View {
 	 * The ID of the View. May be the same as $post_id
 	 * @var int
 	 */
-	var $ID;
+	public $ID = 0;
 
 	/**
 	 * Hold the post data
-	 * @var WP_Post
+	 * @var \WP_Post
 	 */
-	var $post;
+	private $post = null;
 
 	/**
-	 * @var GV_Entry_Collection
+	 * @var View_Settings Stores the settings for the View
 	 */
-	var $entry_collection;
+	private $settings = null;
 
 	/**
-	 * @param int|WP_Post $post_or_post_id
+	 * @var Template
+	 */
+	private $template = null;
+
+	/**
+	 * @var Entry_Collection Set using {@see View::get_entries()}
+	 */
+	private $entry_collection = null;
+
+	/**
+	 * @param int|\WP_Post $post_or_post_id ID or full Post object
+	 * @param array $atts
 	 */
 	function __construct( $post_or_post_id = 0, $atts = array() ) {
 
@@ -35,7 +46,8 @@ final class View {
 
 		$this->settings = new View_Settings( $this, $atts );
 
-		$this->template = new GV_Template( $this );
+		$this->template = new Template( $this );
+
 		// TODO: Set deafults first, then can be overridden by set_search_criteria
 		$this->search_criteria = new View_Search_Criteria( $this );
 	}
@@ -75,6 +87,13 @@ final class View {
 		return true;
 	}
 
+	public function get_settings() {
+		return $this->settings->get_settings();
+	}
+
+	public function get_setting( $key ) {
+		return $this->settings->get( $key );
+	}
 
 	/**
 	 * Does the View exist as a post type in the database?
@@ -86,6 +105,43 @@ final class View {
 	public function exists() {
 		return ! empty( $this->ID ) && gravityview_view_exists( $this->ID );
 	}
+
+	/**
+	 * @return int ID of the View CPT
+	 */
+	public function get_id() {
+		return $this->ID;
+	}
+
+	/**
+	 * Get the Gravity Forms form ID connected to a View
+	 *
+	 * @param int $view_id The ID of the View to get the connected form of
+	 *
+	 * @return false|string ID of the connected Form, if exists. Empty string if not. False if not the View ID isn't valid.
+	 */
+	function get_form_id() {
+		return get_post_meta( $this->get_id(), '_gravityview_form_id', true );
+	}
+
+	/**
+	 * Get the template ID (`list`, `table`, `datatables`, `map`) for a View
+	 *
+	 * @see GravityView_Template::template_id
+	 *
+	 * @param int $view_id The ID of the View to get the layout of
+	 *
+	 * @return string GravityView_Template::template_id value. Empty string if not.
+	 */
+	function get_template_id() {
+		return get_post_meta( $this->get_id(), '_gravityview_directory_template', true );
+	}
+
+	/**
+	 * @return \GV\Form Returns a reference
+	 */
+	function &get_form() {
+		return gravityview()->forms->get( $this->get_form_id() );
 	}
 
 	/**

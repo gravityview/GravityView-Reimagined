@@ -12,7 +12,7 @@ final class Template {
 	/**
 	 * @var View
 	 */
-	var $View;
+	var $view;
 
 	/**
 	 * @var Template_Zone[]
@@ -29,15 +29,11 @@ final class Template {
 	 */
 	function __construct( $GV_View ) {
 
-		$this->View = $GV_View;
+		$this->view = $GV_View;
 
-		$this->set_template_slug();
+		$this->template_slug = $this->view->get_template_id();
 
 		$this->set_zones();
-	}
-
-	function set_template_slug() {
-		$this->template_slug = GVCommon::get_meta_template_id( $this->View->ID );
 	}
 
 	/**
@@ -62,6 +58,7 @@ final class Template {
  */
 class Template_Zone {
 
+	
 	/**
 	 * @var Template_Field[]
 	 */

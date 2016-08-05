@@ -50,6 +50,8 @@ final class Mission_Control {
 		$this->parser    = Request_Parser::get_instance( $this );
 		$this->page_meta = Page_Meta::get_instance( $this );
 
+		// TODO: Current View
+		// TODO: Current field
 	}
 
 	/**

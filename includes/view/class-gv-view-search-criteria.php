@@ -62,8 +62,8 @@ final class View_Search_Criteria {
 		'is_numeric' => true,
 	);
 
-		$this->View = $GV_View;
 	public function __construct( View $GV_View ) {
+		$this->view = $GV_View;
 
 		/**
 		 * TODO: build search!
@@ -83,7 +83,7 @@ final class View_Search_Criteria {
 			return;
 		}
 
-		$filter['operator'] = $this->validate_filter_operator( $filter );
+		$filter['operator'] = $this->validate_operator( $filter );
 
 		$this->field_filters[] = $filter;
 	}
@@ -137,12 +137,12 @@ final class View_Search_Criteria {
 		$this->sorting['is_numeric'] = $is_numeric;
 	}
 
-	public function set_paging( $offset, $page_size ) {
+	public function set_paging( $offset = 0, $page_size = 25 ) {
 		$this->sorting['offset']    = $offset;
 		$this->sorting['page_size'] = $page_size;
 	}
 
-	public function set_mode( $all_any ) {
+	public function set_mode( $all_any = 'any' ) {
 		if ( $all_any === 'any' ) {
 			$this->mode = 'any';
 		} else {
