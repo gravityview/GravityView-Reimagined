@@ -36,6 +36,9 @@ final class View {
 		$this->settings = new View_Settings( $this, $atts );
 
 		$this->template = new GV_Template( $this );
+		// TODO: Set deafults first, then can be overridden by set_search_criteria
+		$this->search_criteria = new View_Search_Criteria( $this );
+	}
 
 	/**
 	 * Get a hash of a View based on the settings, not the entries it contains. Used to determine uniqueness.
@@ -47,7 +50,30 @@ final class View {
 		return sprintf( '%d-%s', $this->ID, sha1( serialize( array( $this->settings, $this->search_criteria, $this->template ) ) ) );
 	}
 
-		$this->search_criteria = new GV_View_Search_Criteria( $this );
+	/**
+	 * Override the search criteria defaults
+	 *
+	 * $View = new GV_View(5);
+	 * $Search = new GV_View_Search_Criteria( array( 'fo
+	 * $View->set_search_criteria( $search );
+	 *
+	 * @param View_Search_Criteria|array $search_criteria Either GF-formatted array or Search_Criteria object
+	 */
+	public function set_search_criteria( $search_criteria ) {
+
+		if( is_array( $search_criteria ) ) {
+			$search_criteria = new View_Search_Criteria( $search_criteria );
+		}
+
+		if( ! is_a( $search_criteria, '\GV\View_Search_Criteria' ) ) {
+			do_action('gravityview_log_debug', sprintf('%s: Search criteria not valid.', __METHOD__, $search_criteria ) );
+			return false;
+		}
+
+		$this->search_criteria = $search_criteria;
+
+		return true;
+	}
 
 	}
 
