@@ -1,9 +1,11 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Store current page meta
  */
-class GV_Page_Meta {
+final class Page_Meta {
 
 	/**
 	 * Page Title <title> tag value
@@ -31,14 +33,14 @@ class GV_Page_Meta {
 
 
 	/**
-	 * @var GV_Page_Meta
+	 * @var Page_Meta
 	 */
 	private static $instance;
 
 	/**
-	 * @return GV_Page_Meta
+	 * @return Page_Meta
 	 */
-	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
+	public static function get_instance( Mission_Control $GV_Mission_Control ) {
 
 		if( empty( self::$instance ) ) {
 			self::$instance = new self( $GV_Mission_Control );
@@ -50,7 +52,7 @@ class GV_Page_Meta {
 	/**
 	 * Add hooks
 	 */
-	private function __construct( GV_Mission_Control $GV_Mission_Control ) {
+	private function __construct( Mission_Control $GV_Mission_Control ) {
 
 	}
 

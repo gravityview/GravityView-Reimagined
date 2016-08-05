@@ -1,9 +1,11 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Holds the View data, including settings
  */
-class GV_View {
+final class View {
 
 	/**
 	 * The ID of the View. May be the same as $post_id
@@ -31,7 +33,7 @@ class GV_View {
 
 		$this->ID = $this->post->ID;
 
-		$this->settings = new GV_View_Settings( $this );
+		$this->settings = new View_Settings( $this, $atts );
 
 		$this->template = new GV_Template( $this );
 
@@ -44,8 +46,8 @@ class GV_View {
 
 		// TODO: use search_criteria
 		$entries = GravityView_frontend::get_view_entries( array( 'id' => $this->ID ), $this->settings->get_form_id() );
+			$this->entry_collection = new Entry_Collection( $entries );
 
-		$this->entry_collection = new GV_Entry_Collection( $entries['entries'] );
 	}
 
 }

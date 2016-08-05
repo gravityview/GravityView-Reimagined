@@ -1,4 +1,6 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Handle parsing the post data to determine what content exists
@@ -6,7 +8,7 @@
  * Is this a `gravityview` Custom Post Type?
  * If not, are there embedded `[gravityview]` shortcodes?
  */
-final class GV_Request_Parser {
+final class Request_Parser {
 
 	/**
 	 * Is the currently viewed post a `gravityview` post type?
@@ -78,7 +80,7 @@ final class GV_Request_Parser {
 	/**
 	 * Process the $post data as soon as it's set up
 	 *
-	 * @param WP $WP
+	 * @param \WP $WP
 	 */
 	function action_wp( &$WP ) {
 		global $post;
@@ -95,7 +97,7 @@ final class GV_Request_Parser {
 	/**
 	 * Check whether the post has GV shortcode or not.
 	 *
-	 * @param WP_Post $post The Post object
+	 * @param \WP_Post $post The Post object
 	 *
 	 * @return bool|null True/False if non-GV CPT post has shortcode. NULL if is GV CPT.
 	 */

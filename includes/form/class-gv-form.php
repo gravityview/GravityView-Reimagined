@@ -1,13 +1,12 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Interact with the Gravity Forms form array
  * Can be used as an array, because the magic functions.
  */
-class GV_Form {
-
-
-	private $_data;
+final class Form extends \ArrayObject {
 
 	/**
 	 * @param int|array $id_or_array ID of the form or GF form array

@@ -1,23 +1,26 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Hold all the Views
  */
-class GV_View_Collection {
+final class View_Collection extends \ArrayIterator {
 
 	/**
-	 * @var GV_View[]
+	 * @var View_Collection
 	 */
 	var $views = array();
 
 	private static $instance;
 
-	private function __construct( GV_Mission_Control $GV_Mission_Control ) {}
+
+	public function __construct( Mission_Control $GV_Mission_Control, $flag = 2 ) {}
 
 	/**
-	 * @return GV_View_Collection
+	 * @return View_Collection
 	 */
-	public static function get_instance( GV_Mission_Control $GV_Mission_Control ) {
+	public static function get_instance( Mission_Control $GV_Mission_Control ) {
 
 		if( empty( self::$instance ) ) {
 			self::$instance = new self( $GV_Mission_Control );
@@ -29,7 +32,7 @@ class GV_View_Collection {
 	/**
 	 * @param $id
 	 *
-	 * @return GV_View
+	 * @return View
 	 */
 	function get( $id ) {
 		return isset( $this->views[ $id ] ) ? $this->views[ $id ] : NULL;
@@ -42,9 +45,9 @@ class GV_View_Collection {
 	 */
 	function add( $View ) {
 
-		// Make sure the $View is a GV_View
-		if( ! $View instanceof GV_View ) {
-			$View = new GV_View( $View );
+		// Make sure the $View is a \GV\View
+		if( ! $view_to_add instanceof \GV\View ) {
+			$view_to_add = new View( $view_to_add, $atts );
 		}
 
 		if( in_array( $View, $this->views ) ) {

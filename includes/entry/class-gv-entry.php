@@ -1,10 +1,12 @@
 <?php
+namespace GV;
+use GV;
 
 /**
- * Class GV_Entry
+ * Class Entry
  *
  */
-class GV_Entry {
+final class Entry extends \ArrayObject {
 
 	/**
 	 * The entry ID

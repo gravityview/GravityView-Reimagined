@@ -1,16 +1,18 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Search Configuration for View
  *
  * @see GFAPI::get_entries()
  */
-class GV_View_Search_Criteria {
+final class View_Search_Criteria {
 
 	/**
-	 * @var GV_View
+	 * @var View
 	 */
-	private $View;
+	private $view;
 
 	/**
 	 * Entry status, ie: `active`
@@ -60,8 +62,8 @@ class GV_View_Search_Criteria {
 		'is_numeric' => true,
 	);
 
-	public function __construct( GV_View $GV_View ) {
 		$this->View = $GV_View;
+	public function __construct( View $GV_View ) {
 
 		/**
 		 * TODO: build search!

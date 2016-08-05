@@ -1,40 +1,42 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Processes and holds data related to the current request.
  *
  * The goal here is to not have GV_Mission_Control even consider whether the current page is a CPT or embed; all that is
- * handled by the GV_Request_Parser class.
+ * handled by the Request_Parser class.
  *
  */
-final class GV_Mission_Control {
+final class Mission_Control {
 
 	/**
 	 * Holds the View data, which in turn has entries and settings
-	 * @var GV_View_Collection
+	 * @var View_Collection
 	 */
 	var $views;
 
 	/**
 	 * Hold forms that have been requested
-	 * @var GV_Form_Collection
+	 * @var Form_Collection
 	 */
 	var $forms;
 
 	/**
 	 * Handles processing the request
-	 * @var GV_Request_Parser
+	 * @var Request_Parser
 	 */
 	var $parser;
 
 	/**
 	 * Store meta data for the current page
-	 * @var GV_Page_Meta
+	 * @var Page_Meta
 	 */
 	var $page_meta;
 
 	/**
-	 * @var GV_Mission_Control
+	 * @var Mission_Control
 	 */
 	private static $instance;
 
@@ -43,10 +45,10 @@ final class GV_Mission_Control {
 		$this->setup_constants();
 		$this->includes();
 
-		$this->views     = GV_View_Collection::get_instance( $this );
-		$this->forms     = GV_Form_Collection::get_instance( $this );
-		$this->parser    = GV_Request_Parser::get_instance( $this );
-		$this->page_meta = GV_Page_Meta::get_instance( $this );
+		$this->views     = View_Collection::get_instance( $this );
+		$this->forms     = Form_Collection::get_instance( $this );
+		$this->parser    = Request_Parser::get_instance( $this );
+		$this->page_meta = Page_Meta::get_instance( $this );
 
 	}
 
@@ -77,12 +79,12 @@ final class GV_Mission_Control {
 	}
 
 	/**
-	 * @return GV_Mission_Control
+	 * @return Mission_Control
 	 */
 	public static function get_instance() {
 
 		if ( empty( self::$instance ) ) {
-			self::$instance = new GV_Mission_Control;
+			self::$instance = new Mission_Control;
 		}
 
 		return self::$instance;

@@ -1,19 +1,21 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Handle outputting the View
  * @todo HELP!
  *
  */
-class GV_Template {
+final class Template {
 
 	/**
-	 * @var GV_View
+	 * @var View
 	 */
 	var $View;
 
 	/**
-	 * @var GV_Template_Zone[]
+	 * @var Template_Zone[]
 	 */
 	private $zones = array();
 
@@ -23,7 +25,7 @@ class GV_Template {
 	private $template_slug;
 
 	/**
-	 * @param GV_View $GV_View
+	 * @param View $GV_View
 	 */
 	function __construct( $GV_View ) {
 
@@ -43,7 +45,7 @@ class GV_Template {
 	 *
 	 */
 	function set_zones() {
-		$this->zones = GVCommon::get_directory_fields( $this->View->ID );
+		$this->zones = \GVCommon::get_directory_fields( $this->view->ID );
 	}
 
 	function render() {
@@ -58,15 +60,16 @@ class GV_Template {
  * Class GV_Template_Zone
  * @todo HELP!
  */
-class GV_Template_Zone {
+class Template_Zone {
 
 	/**
-	 * @var GV_Template_Field[]
+	 * @var Template_Field[]
 	 */
 	var $fields;
 
 	public function render() {
 
+		/** @var Template_Field $field */
 		foreach( $fields as $field ) {
 
 			$field->render();
@@ -80,10 +83,10 @@ class GV_Template_Zone {
  * Class GV_Template_Field
  * @todo HELP!
  */
-class GV_Template_Field {
+class Template_Field {
 
 	/**
-	 * @var GF_Field
+	 * @var \GF_Field
 	 */
 	var $field;
 

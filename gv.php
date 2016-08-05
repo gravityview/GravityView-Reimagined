@@ -12,14 +12,16 @@
  * Domain Path:			/languages
  */
 
+/**
+ * @return \GV\Mission_Control
+ */
 function gravityview() {
 	
-	if( ! class_exists( 'GV_Mission_Control' ) ) {
+	if( ! class_exists( '\GV\Mission_Control' ) ) {
 		include_once plugin_dir_path( __FILE__ ) . 'class-gv-mission-control.php';
 	}
-	
-	return GV_Mission_Control::get_instance();
+
+	return \GV\Mission_Control::get_instance();
 }
 
-gravityview();
-
+add_action( 'plugins_loaded', 'gravityview', 10000 );

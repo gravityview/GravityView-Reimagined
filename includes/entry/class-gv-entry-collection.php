@@ -1,9 +1,11 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Hold the entries for a View
  */
-class GV_Entry_Collection {
+final class Entry_Collection extends \ArrayIterator {
 
 	/**
 	 * @var GV_Entry[] Array of GV_Entry objects
@@ -15,7 +17,7 @@ class GV_Entry_Collection {
 	 */
 	function __construct( array $gf_entries ) {
 		foreach( $gf_entries as $entry ) {
-			$this->add( new GV_Entry( $entry ) );
+			$entries[] = new Entry( $entry );
 		}
 	}
 
@@ -42,7 +44,7 @@ class GV_Entry_Collection {
 	 * Get an entry by slug or ID
 	 * @param string|int $id
 	 *
-	 * @return GV_Entry|boolean If found, get the entry at ID $id. Otherwise, return false.
+	 * @return Entry|false If found, get the entry at ID $id. Otherwise, return false.
 	 */
 	function get( $id ) {
 		if( isset( $this->entries[ $id ] ) ) {

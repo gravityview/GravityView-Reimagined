@@ -1,12 +1,14 @@
 <?php
+namespace GV;
+use GV;
 
 /**
  * Holds the settings for a View
  */
-class GV_View_Settings {
+final class View_Settings extends \ArrayObject {
 
 	/**
-	 * @var GV_View
+	 * @var View
 	 */
 	var $View;
 
@@ -15,7 +17,7 @@ class GV_View_Settings {
 	 */
 	var $settings;
 
-	function __construct( GV_View &$GV_View ) {
+	function __construct( View &$GV_View, $atts = array() ) {
 
 		$this->View = $GV_View;
 
@@ -31,7 +33,7 @@ class GV_View_Settings {
 	 * @return array
 	 */
 	private function get_default_settings() {
-		return GravityView_View_Data::get_default_args();
+		return \GravityView_View_Data::get_default_args();
 	}
 
 	/**
