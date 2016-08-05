@@ -17,7 +17,7 @@ final class Template {
 	/**
 	 * @var Template_Zone[]
 	 */
-	private $zones = array();
+	private $zones;
 
 	/**
 	 * @var string Template identifier
@@ -32,16 +32,31 @@ final class Template {
 		$this->view = $GV_View;
 
 		$this->template_slug = $this->view->get_template_id();
-
-		$this->set_zones();
 	}
 
 	/**
 	 * Set the field configuration for the View
+	 * Not called by default.
+	 *
+	 * @return array
+	 */
+	function get_zones() {
+
+		if( ! empty( $this->zones ) ) {
+			return $this->zones;
+		}
+
+		$old_layout = \GVCommon::get_directory_fields( $this->view->ID );
+
+		$zones_array = $this->convert_layout( $old_layout );
+
+		$this->zones = new Template_Zones( $zones_array );
+
+		return $this->zones;
+	}
+
 	 *
 	 */
-	function set_zones() {
-		$this->zones = \GVCommon::get_directory_fields( $this->view->ID );
 	}
 
 	function render() {

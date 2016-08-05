@@ -53,6 +53,13 @@ final class View {
 	}
 
 	/**
+	 * @return Template_Zone[]
+	 */
+	function get_zones() {
+		return $this->template->get_zones();
+	}
+
+	/**
 	 * Get a hash of a View based on the settings, not the entries it contains. Used to determine uniqueness.
 	 *
 	 * @see View_Collection::is_ready_to_add()
