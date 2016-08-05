@@ -75,6 +75,17 @@ final class View {
 		return true;
 	}
 
+
+	/**
+	 * Does the View exist as a post type in the database?
+	 *
+	 * Note: it may still be in the Trash, even if it exists.
+	 *
+	 * @return bool True: exists; False: does not exist
+	 */
+	public function exists() {
+		return ! empty( $this->ID ) && gravityview_view_exists( $this->ID );
+	}
 	}
 
 	/**
