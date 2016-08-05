@@ -45,3 +45,38 @@ if( ! function_exists( 'has_shortcode_r' ) ) {
 		return false;
 	}
 }
+
+/**
+ * Parse content for [gravityview] shortcodes
+ *
+ * @uses has_shortcode_r()
+ * @uses shortcode_parse_atts()
+ *
+ * @param string $content
+ *
+ * @return array Associative array: (int)[View IDs] => (array)shortcode attributes
+ */
+function gravityview_parse_shortcodes( $content = '' ) {
+
+	$shortcodes = has_shortcode_r( $content, 'gravityview' );
+
+	$return = array();
+
+	if( ! empty( $shortcodes ) ) {
+
+		do_action('gravityview_log_debug', __METHOD__ . ': Parsing content, found shortcodes', $shortcodes );
+
+		foreach ( $shortcodes as $key => $shortcode ) {
+
+			$args = shortcode_parse_atts( $shortcode[3] );
+
+			if ( empty( $args['id'] ) ) {
+				continue;
+			}
+
+			$return[ $args['id'] ] = $args;
+		}
+	}
+
+	return $return;
+}

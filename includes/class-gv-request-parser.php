@@ -97,7 +97,7 @@ final class Request_Parser {
 		$is_edit_entry = apply_filters( 'gravityview_is_edit_entry', false );
 
 		$context = '';
-		
+
 		if( $is_edit_entry ) {
 			$context = 'edit';
 		} else if( class_exists( '\GravityView_frontend' ) && $single = \GravityView_frontend::is_single_entry() ) {
@@ -110,6 +110,8 @@ final class Request_Parser {
 	}
 
 	/**
+	 * Is the current request for a GravityView CPT?
+	 *
 	 * @return bool
 	 */
 	function is_custom_post_type( $post = null ) {
@@ -152,16 +154,22 @@ final class Request_Parser {
 	/**
 	 * Process the $post data as soon as it's set up
 	 *
+	 * @uses \GV\View_Collection::add()
+	 *
 	 * @param \WP $WP
 	 */
 	public function process_views_from_request( &$WP ) {
 		global $post;
 
 		if( $this->is_custom_post_type( $post ) ) {
+
 			gravityview()->views->add( $post );
+
+			$this->post_has_shortcode = NULL;
+
 		} else {
 
-			$shortcodes = $this->parse_shortcodes( $post->post_content );
+			$shortcodes = gravityview_parse_shortcodes( $post->post_content );
 
 			$this->post_has_shortcode = ! empty( $shortcodes );
 
@@ -169,58 +177,6 @@ final class Request_Parser {
 				gravityview()->views->add( $view_id, $view_atts );
 			}
 		}
-
-	}
-
-	/**
-	 * Parse the shortcodes in Post Content
-	 *
-	 * @param string $content
-	 *
-	 * @return array Associative array: (int)[View IDs] => (array)shortcode attributes
-	 */
-	public function parse_shortcodes( $content = '' ) {
-
-		$shortcodes = has_shortcode_r( $content, 'gravityview' );
-
-		$return = array();
-
-		if( ! empty( $shortcodes ) ) {
-
-			do_action('gravityview_log_debug', __METHOD__ . ': Parsing content, found shortcodes', $shortcodes );
-
-			foreach ( $shortcodes as $key => $shortcode ) {
-
-				$args = shortcode_parse_atts( $shortcode[3] );
-
-				if ( empty( $args['id'] ) ) {
-					continue;
-				}
-
-				$return[ $args['id'] ] = $args;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Check whether the post has GV shortcode or not.
-	 *
-	 * @param \WP_Post $post The Post object
-	 *
-	 * @return bool|null True/False if non-GV CPT post has shortcode. NULL if is GV CPT.
-	 */
-	private function post_has_shortcode( $post ) {
-
-		if( $this->is_cpt ) {
-			return NULL;
-		}
-
-		$post_has_shortcode = !empty( $post->post_content ) ? has_shortcode_r( $post->post_content, 'gravityview' ) : false;
-
-		return !empty( $post_has_shortcode );
-
 	}
 
 }
