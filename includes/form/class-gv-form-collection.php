@@ -75,14 +75,18 @@ final class Form_Collection {
 	}
 
 	/**
+	 * Add a form to this
 	 * @param int $id
+	 * @return bool True: form added; False: form already added
 	 */
 	function add( $id = 0 ) {
 
 		if( isset( $this->forms[ $id ] ) ) {
-			return;
+			return false;
 		}
 
-		$this->forms[ $id ] = new GV_Form( $id );
+		$this->forms[ $id ] = new Form( $id );
+
+		return true;
 	}
 }
