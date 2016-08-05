@@ -3,9 +3,15 @@ namespace GV;
 use GV;
 
 /**
- * Store current page meta
+ * Store page meta from the requested page
  */
 final class Page_Meta {
+
+	/**
+	 * Post ID. Here for easy access
+	 * @var int
+	 */
+	private $ID = 0;
 
 	/**
 	 * Page Title <title> tag value
@@ -53,14 +59,31 @@ final class Page_Meta {
 	 * Add hooks
 	 */
 	private function __construct( Mission_Control $GV_Mission_Control ) {
+		$this->add_hooks();
+	}
 
+	private function add_hooks() {
+		add_action( 'wp', array( $this, 'setup_vars' ), 20 );
+	}
+
+	public function setup_vars() {
+		global $post;
+
+		do_action( 'gravityview/page_meta/setup_vars/before', $this );
+
+		$this->ID = $post->ID;
+		$this->set_title( $post->post_title );
+		$this->set_description( $post->post_excerpt );
+		$this->set_canonical( get_permalink( $post->ID ) );
+
+		do_action( 'gravityview/page_meta/setup_vars/after', $this );
 	}
 
 	/**
 	 * @return string
 	 */
 	public function get_title() {
-		return $this->title;
+		return apply_filters( 'gravityview/page_meta/get_title', $this->title );
 	}
 
 	/**
@@ -74,7 +97,7 @@ final class Page_Meta {
 	 * @return string
 	 */
 	public function get_description() {
-		return $this->description;
+		return apply_filters( 'gravityview/page_meta/get_description', $this->description );
 	}
 
 	/**
@@ -88,7 +111,7 @@ final class Page_Meta {
 	 * @return string
 	 */
 	public function get_canonical() {
-		return $this->canonical;
+		return apply_filters( 'gravityview/page_meta/get_canonical', $this->canonical );
 	}
 
 	/**
@@ -102,7 +125,7 @@ final class Page_Meta {
 	 * @return string
 	 */
 	public function get_image() {
-		return $this->image;
+		return apply_filters( 'gravityview/page_meta/get_image', $this->image );
 	}
 
 	/**
