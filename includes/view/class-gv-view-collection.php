@@ -43,13 +43,13 @@ final class View_Collection extends \ArrayIterator {
 	 */
 	function get( $id, $add_if_not_found = false ) {
 
-		$views_found = wp_list_pluck( $this->views, 'ID' );
+		$views_found = wp_list_pluck( $this->get_views(), 'ID' );
 
 		if( empty( $views_found ) && $add_if_not_found ) {
 			$this->add( $id );
 		}
 
-		$found_views = $this->views;
+		$found_views = $this->get_views();
 
 		foreach ( $found_views as $key => $view ) {
 			if( intval( $id ) !== intval( $view->ID ) ) {
