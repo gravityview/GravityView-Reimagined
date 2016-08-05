@@ -59,11 +59,13 @@ final class Form_Collection {
 	}
 
 	/**
-	 * @param $id
+	 * Get a Form object
+	 *
+	 * @param int $id Form ID
 	 *
 	 * @return \GV\Form Returns a reference
 	 */
-	function get( $id ) {
+	function &get( $id ) {
 
 		if( !isset( $this->forms[ $id ] ) ) {
 			$this->add( $id );
