@@ -49,15 +49,22 @@ final class View {
 
 		$this->search_criteria = new GV_View_Search_Criteria( $this );
 
-		$this->set_entries();
 	}
 
-	function set_entries() {
+	/**
+	 * @return Entry_Collection
+	 */
+	function get_entries() {
 
-		// TODO: use search_criteria
-		$entries = GravityView_frontend::get_view_entries( array( 'id' => $this->ID ), $this->settings->get_form_id() );
+		if ( empty( $this->entry_collection ) ) {
+			// TODO: use search_criteria
+			$entries = \GravityView_frontend::get_view_entries( array( 'id' => $this->ID ), $this->get_form_id() );
+			$entries = \GFAPI::get_entries( $this->get_form_id() );
+
 			$this->entry_collection = new Entry_Collection( $entries );
+		}
 
+		return $this->entry_collection;
 	}
 
 }
