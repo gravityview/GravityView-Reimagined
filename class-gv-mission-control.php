@@ -125,6 +125,13 @@ final class Mission_Control {
 
 		// Templates
 		require_once GV_DIR . 'includes/template/template-functions.php';
+		require_once GV_DIR . 'includes/template/class-gv-template-context.php';
+		require_once GV_DIR . 'includes/template/abstract-gv-template-item.php';
+		require_once GV_DIR . 'includes/template/class-gv-template-field.php';
+		require_once GV_DIR . 'includes/template/class-gv-template-widget.php';
+		require_once GV_DIR . 'includes/template/abstract-gv-template-zone.php';
+		require_once GV_DIR . 'includes/template/class-gv-template-fields-zone.php';
+		require_once GV_DIR . 'includes/template/class-gv-template-widgets-zone.php';
 		require_once GV_DIR . 'includes/template/class-gv-template.php';
 
 		// Page

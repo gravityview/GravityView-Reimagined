@@ -1,6 +1,7 @@
 <?php
 namespace GV;
 use GV;
+use GV\Template;
 
 /**
  * Handle outputting the View
@@ -15,9 +16,9 @@ final class Template {
 	var $view;
 
 	/**
-	 * @var Template_Zone[]
+	 * @var Template\Context[]
 	 */
-	private $zones;
+	private $contexts = array();
 
 	/**
 	 * @var string Template identifier
@@ -27,11 +28,25 @@ final class Template {
 	/**
 	 * @param View $GV_View
 	 */
-	function __construct( $GV_View ) {
+	public function __construct( &$GV_View ) {
 
-		$this->view = $GV_View;
+		$this->view = &$GV_View;
 
 		$this->template_slug = $this->view->get_template_id();
+
+	}
+
+	private function setup_contexts() {
+
+		$layout = $this->get_field_layout();
+
+		$contexts = apply_filters( 'gravityview/template/contexts', array( 'directory', 'single', 'edit' ) );
+
+		/** @var string $context */
+		foreach ( $contexts as $context ) {
+			$this->contexts[ $context ] = null; // Make sure it's set up when instantiating the Context
+			$this->contexts[ $context ] = new \GV\Template\Context( $this, $context, rgar( $layout, $context ) );
+		}
 	}
 
 	/**
@@ -40,26 +55,46 @@ final class Template {
 	 *
 	 * @return array
 	 */
-	function get_zones() {
+	public function get_contexts() {
 
-		if( ! empty( $this->zones ) ) {
-			return $this->zones;
+		if( empty( $this->contexts ) ) {
+			$this->setup_contexts();
 		}
+
+		return $this->contexts;
+	}
+
+	/**
+	 * @param $fields
+	 *
+	 * @return array
+	 */
+	private function get_field_layout() {
+		$layout = array();
 
 		$old_layout = \GVCommon::get_directory_fields( $this->view->ID );
 
-		$zones_array = $this->convert_layout( $old_layout );
+		foreach ( $old_layout as $context_id => $context_fields ) {
 
-		$this->zones = new Template_Zones( $zones_array );
+			// 'directory_list-title' => 'directory', 'list-title'
+			list( $context, $template_slug_and_zone ) = explode( '_', $context_id );
 
-		return $this->zones;
+			// 'list-title' => 'list', 'title'
+			list( $template_slug, $zone ) = array_pad( explode( '-', $template_slug_and_zone ), 2, '' );
+
+			if( ! empty( $zone ) ) {
+				if( ! isset( $this->contexts["{$context}"][$zone] ) ) {
+					$layout["{$context}"]["{$zone}"] = new Template\Fields_Zone( $this, $context_fields );
+				}
+			} else {
+				$layout["{$context}"] = new Template\Fields_Zone( $this, $context_fields );
+			}
+		}
+
+		return $layout;
 	}
 
-	 *
-	 */
-	}
-
-	function render() {
+	public function render() {
 		foreach( $this->zones as $zone ) {
 			$zone->render();
 		}
@@ -67,51 +102,9 @@ final class Template {
 
 }
 
-/**
- * Class GV_Template_Zone
- * @todo HELP!
- */
-class Template_Zone {
+// Each template has contexts
+// Each context has zones
+// Each zone has fields or widgets
+// Each field or widget has settings
 
-	
-	/**
-	 * @var Template_Field[]
-	 */
-	var $fields;
 
-	public function render() {
-
-		/** @var Template_Field $field */
-		foreach( $fields as $field ) {
-
-			$field->render();
-
-		}
-	}
-
-}
-
-/**
- * Class GV_Template_Field
- * @todo HELP!
- */
-class Template_Field {
-
-	/**
-	 * @var \GF_Field
-	 */
-	var $field;
-
-	public function render() {
-
-	}
-
-	private function get_field_label( $force_frontend_label, $value ) {
-
-	}
-
-	private function get_field_content() {
-		$field->get_field_content();
-	}
-
-}

@@ -39,24 +39,28 @@ final class View {
 	 * @param array $atts
 	 */
 	function __construct( $post_or_post_id = 0, $atts = array() ) {
-
 		$this->post = get_post( $post_or_post_id );
-
 		$this->ID = $this->post->ID;
-
 		$this->settings = new View_Settings( $this, $atts );
-
 		$this->template = new Template( $this );
-
-		// TODO: Set deafults first, then can be overridden by set_search_criteria
 		$this->search_criteria = new View_Search_Criteria( $this );
 	}
 
 	/**
-	 * @return Template_Zone[]
+	 * @return GV\Template\Context[]
 	 */
-	function get_zones() {
-		return $this->template->get_zones();
+	function get_contexts() {
+		return $this->template->get_contexts();
+	}
+
+	function get_context( $context = '' ) {
+		$contexts = $this->get_contexts();
+
+		if( empty( $context ) ) {
+			$context = gravityview()->parser->get_context();
+		}
+		
+		return $contexts["{$context}"];
 	}
 
 	/**

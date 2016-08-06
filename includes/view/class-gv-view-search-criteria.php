@@ -62,8 +62,8 @@ final class View_Search_Criteria {
 		'is_numeric' => true,
 	);
 
-	public function __construct( View $GV_View ) {
-		$this->view = $GV_View;
+	public function __construct() {
+		#$this->view = $GV_View;
 
 		/**
 		 * TODO: build search!
