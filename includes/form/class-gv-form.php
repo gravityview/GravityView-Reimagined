@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Interact with the Gravity Forms form array

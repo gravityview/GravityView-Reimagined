@@ -1,6 +1,5 @@
 <?php
 namespace GV\Template;
-use GV;
 use GV\Template;
 
 class Fields_Zone extends Zone {

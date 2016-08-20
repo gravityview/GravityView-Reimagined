@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Holds the settings for a View

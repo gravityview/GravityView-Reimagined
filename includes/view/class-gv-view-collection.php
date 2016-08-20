@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Hold all the Views

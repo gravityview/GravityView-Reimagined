@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Holds the View data, including settings
@@ -43,7 +42,7 @@ final class View {
 		$this->ID = $this->post->ID;
 		$this->settings = new View_Settings( $this, $atts );
 		$this->template = new Template( $this );
-		$this->search_criteria = new View_Search_Criteria( $this );
+		$this->search_criteria = new Search_Criteria();
 	}
 
 	/**
@@ -77,18 +76,18 @@ final class View {
 	 * Override the search criteria defaults
 	 *
 	 * $View = new GV_View(5);
-	 * $Search = new GV_View_Search_Criteria( array( 'fo
+	 * $Search = new Search_Criteria( array( 'fo
 	 * $View->set_search_criteria( $search );
 	 *
-	 * @param View_Search_Criteria|array $search_criteria Either GF-formatted array or Search_Criteria object
+	 * @param Search_Criteria|array $search_criteria Either GF-formatted array or Search_Criteria object
 	 */
 	public function set_search_criteria( $search_criteria ) {
 
 		if( is_array( $search_criteria ) ) {
-			$search_criteria = new View_Search_Criteria( $search_criteria );
+			$search_criteria = new Search_Criteria( $search_criteria );
 		}
 
-		if( ! is_a( $search_criteria, '\GV\View_Search_Criteria' ) ) {
+		if( ! is_a( $search_criteria, '\GV\Search_Criteria' ) ) {
 			do_action('gravityview_log_debug', sprintf('%s: Search criteria not valid.', __METHOD__, $search_criteria ) );
 			return false;
 		}

@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Store page meta from the requested page

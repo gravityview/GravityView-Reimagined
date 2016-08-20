@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 use GV\Template;
 
 /**
@@ -45,7 +44,7 @@ final class Template {
 		/** @var string $context */
 		foreach ( $contexts as $context ) {
 			$this->contexts[ $context ] = null; // Make sure it's set up when instantiating the Context
-			$this->contexts[ $context ] = new \GV\Template\Context( $this, $context, rgar( $layout, $context ) );
+			$this->contexts[ $context ] = new \GV\Template\Context( $this, $context, rgar( $layout, $context, array() ) );
 		}
 	}
 

@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Handle parsing the post data to determine what content exists
@@ -132,7 +131,12 @@ final class Request_Parser {
 	 */
 	public function is_single_entry() {
 
-		$var_name = \GravityView_Post_Types::get_entry_var_name();
+		// TODO: Remove check when included as library
+		if( class_exists( 'GravityView_Post_Types' ) ) {
+			$var_name = \GravityView_Post_Types::get_entry_var_name();
+		} else {
+			$var_name = sanitize_title( apply_filters( 'gravityview_directory_endpoint', 'entry' ) );
+		}
 
 		$single_entry = get_query_var( $var_name );
 

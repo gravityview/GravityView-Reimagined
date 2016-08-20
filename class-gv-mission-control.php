@@ -1,6 +1,5 @@
 <?php
 namespace GV;
-use GV;
 
 /**
  * Processes and holds data related to the current request.
@@ -36,6 +35,11 @@ final class Mission_Control {
 	var $page_meta;
 
 	/**
+	 * @var Search
+	 */
+	var $search;
+
+	/**
 	 * @var Mission_Control
 	 */
 	private static $instance;
@@ -49,6 +53,7 @@ final class Mission_Control {
 		$this->forms     = Form_Collection::get_instance( $this );
 		$this->parser    = Request_Parser::get_instance( $this );
 		$this->page_meta = Page_Meta::get_instance( $this );
+		$this->search    = new Search();
 
 		// TODO: Current View
 		// TODO: Current field
@@ -119,7 +124,6 @@ final class Mission_Control {
 		// Views
 		require_once GV_DIR . 'includes/view/view-functions.php';
 		require_once GV_DIR . 'includes/view/class-gv-view.php';
-		require_once GV_DIR . 'includes/view/class-gv-view-search-criteria.php';
 		require_once GV_DIR . 'includes/view/class-gv-view-settings.php';
 		require_once GV_DIR . 'includes/view/class-gv-view-collection.php';
 
@@ -136,6 +140,9 @@ final class Mission_Control {
 
 		// Page
 		require_once GV_DIR . 'includes/page/class-gv-page-meta.php';
+
+		// Search
+		require_once GV_DIR . 'includes/search/class-gv-search.php';
 	}
 
 	/**
