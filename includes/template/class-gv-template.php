@@ -35,16 +35,23 @@ final class Template {
 
 	}
 
+	/**
+	 * @return array
+	 */
+	private function get_context_keys() {
+		return (array) apply_filters( 'gravityview/template/contexts', array( 'directory', 'single', 'edit' ) );
+	}
+
 	private function setup_contexts() {
 
 		$layout = $this->get_field_layout();
 
-		$contexts = apply_filters( 'gravityview/template/contexts', array( 'directory', 'single', 'edit' ) );
+		$context_keys = $this->get_context_keys();
 
-		/** @var string $context */
-		foreach ( $contexts as $context ) {
-			$this->contexts[ $context ] = null; // Make sure it's set up when instantiating the Context
-			$this->contexts[ $context ] = new \GV\Template\Context( $this, $context, rgar( $layout, $context, array() ) );
+		/** @var string $context_key */
+		foreach ( $context_keys as $context_key ) {
+			$this->contexts[ $context_key ] = null; // Make sure it's set up when instantiating the Context
+			$this->contexts[ $context_key ] = new \GV\Template\Context( $this, $context_key, rgar( $layout, $context_key, array() ) );
 		}
 	}
 

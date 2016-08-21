@@ -97,10 +97,18 @@ final class View {
 		return true;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_settings() {
 		return $this->settings->get_settings();
 	}
 
+	/**
+	 * @param string $key Key to the setting requested
+	 *
+	 * @return mixed|false The value at the specified index or false.
+	 */
 	public function get_setting( $key ) {
 		return $this->settings->get( $key );
 	}
