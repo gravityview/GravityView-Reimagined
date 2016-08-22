@@ -1,8 +1,12 @@
 <?php
-namespace GV\Template;
-use GV\Template;
+namespace GV;
 
-class Field extends Item {
+class Template_Field extends Template_Item {
+
+	protected $item_type = 'field';
+
+	// TODO: Implement this to make way for future multiple form IDs
+	var $form_id;
 
 	var $zone;
 
@@ -11,7 +15,7 @@ class Field extends Item {
 	/**
 	 * Field constructor.
 	 */
-	public function __construct( Zone $zone, array $array ) {
+	public function __construct( Template_Zone $zone, array $array ) {
 
 		$this->zone = $zone;
 		

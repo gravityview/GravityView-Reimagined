@@ -1,14 +1,14 @@
 <?php
-namespace GV\Template;
-use GV\Template;
+namespace GV;
 
 /**
  * Class GV_Template_Zone
  * @todo HELP!
  */
-abstract class Zone extends \RecursiveArrayIterator {
+abstract class Template_Zone extends \ArrayIterator {
 
 	public $template;
+
 	private $key = '';
 	private $title = '';
 
@@ -28,12 +28,10 @@ abstract class Zone extends \RecursiveArrayIterator {
 	}
 
 	public function render() {
-
-		/** @var \GV\Template\Field $field */
-		foreach( $fields as $field ) {
-
-			$field->render();
-
+		
+		/** @var Template_Item $item */
+		foreach( $this as $item ) {
+			$item->render();
 		}
 	}
 

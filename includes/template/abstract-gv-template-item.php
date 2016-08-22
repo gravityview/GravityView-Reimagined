@@ -1,12 +1,16 @@
 <?php
-namespace GV\Template;
-use GV\Template;
+namespace GV;
 
 /**
  * Class GV_Template_Field
  * @todo HELP!
  */
-abstract class Item extends \ArrayObject {
+abstract class Template_Item extends \ArrayObject {
+
+	/**
+	 * @var string Type of item ('field' or 'widget')
+	 */
+	protected $item_type;
 
 	private $label = '';
 
@@ -16,7 +20,9 @@ abstract class Item extends \ArrayObject {
 
 	private $custom_class = '';
 
-	public function render() {}
+	public function render() {
+		throw new \Exception( __METHOD__ . ' Must be overridden!' );
+	}
 
 	/**
 	 * @param $index
@@ -49,8 +55,11 @@ abstract class Item extends \ArrayObject {
 	 *
 	 * @return string The label
 	 */
-	public function get_label( $force_frontend_label, $value ) {
-		return apply_filters( 'gravityview/template/item/get_label', $this->get( 'label' ), $this );
+	public function get_label( $force_frontend_label = false, $value = '' ) {
+		$label = $this->get( 'label' );
+		$label = apply_filters( 'gravityview/template/item/get_label', $label, $this );
+		$label = apply_filters( 'gravityview/template/' . $this->item_type . '/get_label', $label, $this );
+		return $label;
 	}
 
 	/**
@@ -59,6 +68,13 @@ abstract class Item extends \ArrayObject {
 	 */
 	function show_label() {
 		return (bool) apply_filters( 'gravityview/template/item/show_label', $this->get( 'show_label' ), $this );
+	}
+
+	/**
+	 * @return array
+	 */
+	function to_array() {
+		return $this->getArrayCopy();
 	}
 
 }

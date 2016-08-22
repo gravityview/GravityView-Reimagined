@@ -1,13 +1,12 @@
 <?php
-namespace GV\Template;
-use GV\Template;
+namespace GV;
 
-class Widgets_Zone extends Zone {
+class Template_Widgets_Zone extends Template_Zone {
 
-	function __construct( Template $template, array $widgets ) {
+	function __construct( Template &$template, array $widgets ) {
 
 		foreach ( $widgets as $key => $widget ) {
-			$widgets["{$key}"] = new Widget( $widget );
+			$widgets["{$key}"] = new Template_Widget( $widget );
 		}
 
 		parent::__construct( $template, $widgets );

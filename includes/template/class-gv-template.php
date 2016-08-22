@@ -1,6 +1,7 @@
 <?php
 namespace GV;
-use GV\Template;
+
+use \GVCommon;
 
 /**
  * Handle outputting the View
@@ -15,7 +16,7 @@ final class Template {
 	var $view;
 
 	/**
-	 * @var Template\Context[]
+	 * @var Template_Context[]
 	 */
 	private $contexts = array();
 
@@ -27,9 +28,9 @@ final class Template {
 	/**
 	 * @param View $GV_View
 	 */
-	public function __construct( &$GV_View ) {
+	public function __construct( View &$View ) {
 
-		$this->view = &$GV_View;
+		$this->view = &$View;
 
 		$this->template_slug = $this->view->get_template_id();
 
@@ -51,7 +52,7 @@ final class Template {
 		/** @var string $context_key */
 		foreach ( $context_keys as $context_key ) {
 			$this->contexts[ $context_key ] = null; // Make sure it's set up when instantiating the Context
-			$this->contexts[ $context_key ] = new \GV\Template\Context( $this, $context_key, rgar( $layout, $context_key, array() ) );
+			$this->contexts[ $context_key ] = new Template_Context( $this, $context_key, rgar( $layout, $context_key, array() ) );
 		}
 	}
 
@@ -78,7 +79,7 @@ final class Template {
 	private function get_field_layout() {
 		$layout = array();
 
-		$old_layout = \GVCommon::get_directory_fields( $this->view->ID );
+		$old_layout = GVCommon::get_directory_fields( $this->view->ID );
 
 		foreach ( $old_layout as $context_id => $context_fields ) {
 
@@ -90,10 +91,10 @@ final class Template {
 
 			if( ! empty( $zone ) ) {
 				if( ! isset( $this->contexts["{$context}"][$zone] ) ) {
-					$layout["{$context}"]["{$zone}"] = new Template\Fields_Zone( $this, $context_fields );
+					$layout["{$context}"]["{$zone}"] = new Template_Fields_Zone( $this, $context_fields );
 				}
 			} else {
-				$layout["{$context}"] = new Template\Fields_Zone( $this, $context_fields );
+				$layout["{$context}"] = new Template_Fields_Zone( $this, $context_fields );
 			}
 		}
 
