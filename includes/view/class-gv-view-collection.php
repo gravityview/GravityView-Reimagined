@@ -74,9 +74,9 @@ final class View_Collection extends \ArrayIterator {
 	 * @param int|\GV\View|\WP_Post|int[]|\GV\View[]|\WP_Post[] $view_to_add View ID, View object, WP Post object, or array consisting of those types
 	 * @param array|string Array of overrides for View settings, or a string formatted for {@see wp_parse_atts()}
 	 *
-	 * @return boolean False: Already existed, True: added
+	 * @return View|false View is returned if added successfully. Otherwise, false: already existed or not ready to add
 	 */
-	function add( $view_to_add, $atts = array() ) {
+	function & add( $view_to_add, $atts = array() ) {
 
 		// Handle the array of
 		if( is_array( $view_to_add ) ) {
@@ -86,8 +86,8 @@ final class View_Collection extends \ArrayIterator {
 			unset( $view );
 		}
 
-		// Make sure the $View is a \GV\View
-		if( ! $view_to_add instanceof \GV\View ) {
+		// Make sure the $View is a View
+		if( ! $view_to_add instanceof View ) {
 			$view_to_add = new View( $view_to_add, $atts );
 		}
 
@@ -97,7 +97,9 @@ final class View_Collection extends \ArrayIterator {
 
 		$this->offsetSet( $view_to_add->get_hash(), $view_to_add );
 
-		return true;
+		return $view_to_add;
+	}
+
 	}
 
 	/**
