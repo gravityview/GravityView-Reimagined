@@ -81,6 +81,17 @@ class Search {
 	}
 
 	/**
+	 * Refresh the search results
+	 *
+	 * You may want to call this after adding search criteria parameters
+	 *
+	 * @return void
+	 */
+	public function refresh() {
+		$this->fetch();
+	}
+
+	/**
 	 * Get entries for a given search
 	 *
 	 * @return Entry_Collection (by reference)
