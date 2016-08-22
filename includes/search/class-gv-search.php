@@ -8,17 +8,17 @@ class Search {
 	/**
 	 * @var int|int[]
 	 */
-	var $form_ids;
+	private $form_ids;
 
 	/**
 	 * @var Search_Criteria
 	 */
-	var $search_criteria;
+	private $search_criteria;
 
 	/**
 	 * @var Entry_Collection
 	 */
-	var $entry_collection;
+	private $entry_collection;
 
 	/**
 	 * Search constructor.
@@ -66,6 +66,13 @@ class Search {
 	 */
 	private function set_search_criteria( $search_criteria = array() ) {
 		$this->search_criteria = new Search_Criteria( $search_criteria );
+	}
+
+	/**
+	 * @return Search_Criteria
+	 */
+	public function get_search_criteria() {
+		return $this->search_criteria;
 	}
 
 	/**
