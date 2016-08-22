@@ -5,36 +5,93 @@ use GFAPI;
 
 class Search {
 
-	function __construct() {
+	/**
+	 * @var int|int[]
+	 */
+	var $form_ids;
 
-		spl_autoload_register( array( $this, 'autoloader' ) );
+	/**
+	 * @var Search_Criteria
+	 */
+	var $search_criteria;
 
-		$this->include_files();
+	/**
+	 * @var Entry_Collection
+	 */
+	var $entry_collection;
 
+	/**
+	 * Search constructor.
+	 *
+	 * @param int|int[] $form_ids
+	 * @param array|Search_Criteria $search_criteria
+	 */
+	function __construct( $form_ids = 0, $search_criteria = array() ) {
+
+		$this->set_form_ids( $form_ids );
+		$this->set_search_criteria( $search_criteria );
+
+		if( ! isset( $this->form_ids ) ) {
+			// TODO Exception
+			return;
+		}
 	}
 
 	/**
-	 * Load all the files in the /search/ folder
-	 *
-	 * @uses Search::autoloader When loading the files, they may load out of order; load the other files if needed
+	 * @param int|int[] $form_ids
 	 */
-	function include_files() {
-		foreach ( glob( plugin_dir_path( __FILE__ ) . 'class-gv-search-*.php' ) as $filename ) {
-			require_once( $filename );
+	private function set_form_ids( $form_ids ) {
+
+		if ( ! is_numeric( $form_ids ) ) {
+			return;
 		}
+
+		if( is_array( $form_ids ) ) {
+			$numbers = array_filter( $form_ids, 'is_int' );
+
+			if ( empty( $numbers ) ) {
+				return;
+			}
+
+			$form_ids = array_map( 'intval', $form_ids );
+		} else {
+			$form_ids = intval( $form_ids );
+		}
+
+		$this->form_ids = $form_ids;
 	}
 
-	function autoloader( $class_name = '' ) {
-
-		if ( false !== strpos( $class_name, 'GV\Search' ) ) {
-
-			$file_name = $class_name;
-			$file_name = str_replace( 'GV\\', '', $file_name );
-			$file_name = str_replace( '_', '-', $file_name );
-			$file_name = sprintf( 'class-gv-%s.php', strtolower( $file_name ) );
-
-			include plugin_dir_path( __FILE__ ) . $file_name;
-		}
+	/**
+	 * @param $search_criteria
+	 */
+	private function set_search_criteria( $search_criteria = array() ) {
+		$this->search_criteria = new Search_Criteria( $search_criteria );
 	}
-	
+
+	/**
+	 * Perform the query via GFAPI
+	 *
+	 * @uses GFAPI::get_entries()
+	 */
+	private function fetch() {
+
+		$entries = GFAPI::get_entries( $this->form_ids, $this->search_criteria );
+
+		$this->entry_collection = new Entry_Collection( $entries );
+	}
+
+	/**
+	 * Get entries for a given search
+	 *
+	 * @return Entry_Collection (by reference)
+	 */
+	function &get_entries() {
+
+		if( ! isset( $this->entry_collection ) ) {
+			$this->fetch();
+		}
+
+		return $this->entry_collection;
+	}
+
 }
