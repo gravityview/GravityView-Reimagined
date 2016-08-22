@@ -35,7 +35,7 @@ abstract class Search_Parameter {
 	 *
 	 * @return bool
 	 */
-	private function is_valid( $value = '' ) {
+	protected function is_valid( $value = '' ) {
 
 		// No valid values have been set
 		if ( is_null( $this->valid_values ) ) {
