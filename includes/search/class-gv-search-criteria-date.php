@@ -21,7 +21,7 @@ class Search_Criteria_Date extends Search_Parameter {
 	}
 
 
-	private function is_valid( $value = '' ) {
+	protected function is_valid( $value = '' ) {
 
 		$valid_date = strtotime( $value );
 

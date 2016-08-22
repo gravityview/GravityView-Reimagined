@@ -1,11 +1,15 @@
 <?php
 namespace GV;
 
+use ArrayObject;
+use GFAPI;
+use GVCommon;
+
 /**
  * Interact with the Gravity Forms form array
  * Can be used as an array, because it extends ArrayObject
  */
-final class Form extends \ArrayObject {
+final class Form extends ArrayObject {
 
 	/**
 	 * @param int|array $id_or_array ID of the form or GF form array
@@ -38,22 +42,37 @@ final class Form extends \ArrayObject {
 		return $this->getArrayCopy();
 	}
 
+	/**
+	 * @return array Form notifications
+	 */
 	public function get_notifications() {
 		return $this->offsetGet( 'notifications' );
 	}
 
+	/**
+	 * @return array Form confirmations
+	 */
 	public function get_confirmations() {
 		return $this->offsetGet( 'confirmations' );
 	}
 
+	/**
+	 * @return int Form ID
+	 */
 	public function get_id() {
-		return $this->offsetGet( 'id' );
+		return intval( $this->offsetGet( 'id' ) );
 	}
 
+	/**
+	 * @return string Form title
+	 */
 	public function get_title() {
 		return $this->offsetGet( 'title' );
 	}
 
+	/**
+	 * @return string Form description
+	 */
 	public function get_description() {
 		return $this->offsetGet( 'description' );
 	}
@@ -61,14 +80,14 @@ final class Form extends \ArrayObject {
 	/**
 	 * Return array of fields' id and label, for a given Form ID
 	 *
-	 * @see \GVCommon::get_form_fields
+	 * @see GVCommon::get_form_fields
 	 *
 	 * @access public
 	 * @param string|array $form_id (default: '') or $form object
 	 * @return array
 	 */
 	function get_fields( $add_default_properties = false, $include_parent_field = true ) {
-		return \GVCommon::get_form_fields( $this->data, $add_default_properties, $include_parent_field_ );
+		return GVCommon::get_form_fields( $this->data, $add_default_properties, $include_parent_field_ );
 	}
 
 	/**
@@ -76,6 +95,6 @@ final class Form extends \ArrayObject {
 	 * @return array
 	 */
 	function get_connected_views() {
-		return \GVCommon::get_connected_views( $this->id );
+		return GVCommon::get_connected_views( $this->id );
 	}
 }

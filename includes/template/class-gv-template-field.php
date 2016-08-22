@@ -22,6 +22,10 @@ class Template_Field extends Template_Item {
 		parent::__construct( $array, 2 );
 	}
 
+	function render() {
+		var_dump( $this->getArrayCopy() );
+	}
+
 	/**
 	 * @return \GF_Field
 	 */

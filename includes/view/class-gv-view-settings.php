@@ -11,9 +11,9 @@ final class View_Settings extends \ArrayObject {
 	 */
 	var $view;
 
-	function __construct( View &$GV_View, $atts = array() ) {
+	function __construct( View &$View, $atts = array() ) {
 
-		$this->view = $GV_View;
+		$this->view = $View;
 
 		parent::__construct( $this->parse_settings( $atts ), 2 );
 	}

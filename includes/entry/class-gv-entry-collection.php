@@ -2,10 +2,9 @@
 namespace GV;
 
 /**
- * Hold the entries for a View
+ * Hold an array of entries
  */
 final class Entry_Collection extends \ArrayIterator {
-
 
 	/**
 	 * @param array $gf_entries Array of entries

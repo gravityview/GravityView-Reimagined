@@ -67,7 +67,7 @@ final class Form_Collection {
 	 */
 	function &get( $id ) {
 
-		if( !isset( $this->forms[ $id ] ) ) {
+		if( ! isset( $this->forms[ $id ] ) ) {
 			$this->add( $id );
 		}
 

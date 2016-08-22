@@ -108,7 +108,7 @@ final class Entry extends \ArrayObject {
 	}
 
 	public function get_form_id() {
-		return $this->__get( 'form_id' );
+		return intval( $this->__get( 'form_id' ) );
 	}
 
 	public function get_status() {
