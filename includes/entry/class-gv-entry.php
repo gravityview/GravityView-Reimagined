@@ -1,6 +1,8 @@
 <?php
 namespace GV;
 
+use WP_Post;
+
 /**
  * Class Entry
  * Can be used as an array, because it extends ArrayObject
@@ -115,6 +117,28 @@ final class Entry extends \ArrayObject {
 
 	public function get_ip() {
 		return $this->__get( 'ip' );
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function get_post_id() {
+		return $this->__get( 'post_id' );
+	}
+
+	/**
+	 * If the entry has a connected post, get it
+	 *
+	 * @return null|WP_Post null if no connected post; WP_Post otherwise
+	 */
+	public function get_post() {
+		$post_id = $this->__get( 'post_id' );
+
+		if ( empty( $post_id ) ) {
+			return null;
+		}
+
+		return get_post( $post_id );
 	}
 
 	public function is_starred() {
