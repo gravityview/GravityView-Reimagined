@@ -42,22 +42,28 @@ final class View {
 		$this->ID = $this->post->ID;
 		$this->settings = new View_Settings( $this, $atts );
 		$this->template = new Template( $this );
-		$this->search_criteria = new Search_Criteria();
+		$this->search_criteria = new Search_Criteria_View( $this );
 	}
 
 	/**
-	 * @return GV\Template\Context[]
+	 * @return Template_Context[]
 	 */
 	function get_contexts() {
 		return $this->template->get_contexts();
 	}
 
+	/**
+	 * @param string $context
+	 *
+	 * @return Template_Context
+	 */
 	function get_context( $context = '' ) {
-		$contexts = $this->get_contexts();
 
 		if( empty( $context ) ) {
 			$context = gravityview()->parser->get_context();
 		}
+
+		$contexts = $this->get_contexts();
 		
 		return $contexts["{$context}"];
 	}
@@ -84,10 +90,10 @@ final class View {
 	public function set_search_criteria( $search_criteria ) {
 
 		if( is_array( $search_criteria ) ) {
-			$search_criteria = new Search_Criteria( $search_criteria );
+			$search_criteria = new Search_Criteria_View( $this, $search_criteria );
 		}
 
-		if( ! is_a( $search_criteria, '\GV\Search_Criteria' ) ) {
+		if( ! is_a( $search_criteria, '\GV\Search_Criteria_View' ) ) {
 			do_action('gravityview_log_debug', sprintf('%s: Search criteria not valid.', __METHOD__, $search_criteria ) );
 			return false;
 		}
@@ -162,20 +168,31 @@ final class View {
 		return gravityview()->forms->get( $this->get_form_id() );
 	}
 
+	function set_entries( $entries = array() ) {
+
+		if( array() === $entries ) {
+			$gv_search = new Search( $this->get_form_id(), $this->search_criteria );
+
+			$this->entry_collection = $gv_search->get_entries();
+		} else {
+			$this->entry_collection = new Entry_Collection( $entries );
+		}
+	}
+
 	/**
 	 * @return Entry_Collection
 	 */
-	function get_entries() {
+	function &get_entries() {
 
-		if ( empty( $this->entry_collection ) ) {
-			// TODO: use search_criteria
-			$entries = \GravityView_frontend::get_view_entries( array( 'id' => $this->ID ), $this->get_form_id() );
-			$entries = \GFAPI::get_entries( $this->get_form_id() );
-
-			$this->entry_collection = new Entry_Collection( $entries );
+		if ( ! isset( $this->entry_collection ) ) {
+			$this->set_entries();
 		}
 
 		return $this->entry_collection;
+	}
+
+	function render() {
+		
 	}
 
 }
