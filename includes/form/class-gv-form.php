@@ -4,6 +4,7 @@ namespace GV;
 use ArrayObject;
 use GFAPI;
 use GVCommon;
+use GFFormsModel;
 
 /**
  * Interact with the Gravity Forms form array
@@ -91,10 +92,42 @@ final class Form extends ArrayObject {
 	}
 
 	/**
+	 * Get a field by the field's ID
+	 *
+	 * @param $field_or_input_id
+	 *
+	 * @return \GF_Field
+	 */
+	function get_field_by_id( $field_or_input_id ) {
+		return GFFormsModel::get_field( $this, $field_or_input_id );
+	}
+
+	/**
 	 * @see \GVCommon::get_connected_views
 	 * @return array
 	 */
 	function get_connected_views() {
 		return GVCommon::get_connected_views( $this->id );
+	}
+
+	/**
+	 * Should the field be considered "numeric"
+	 *
+	 * TODO: Improve this to handle many more field types and use cases
+	 *
+	 * @param string|int $field_id Field ID or field meta key
+	 *
+	 * @return bool
+	 */
+	public function is_field_numeric( $field_id = '' ) {
+
+		// The default field is "id", which is numeric
+		if( '' === $field_id || 'id' === $field_id ) {
+			return true;
+		}
+
+		$field = $this->get_field_by_id( $field_id );
+
+		return $field instanceof \GF_Field_Number;
 	}
 }
