@@ -35,25 +35,22 @@ final class Mission_Control {
 	var $page_meta;
 
 	/**
-	 * @var Search
-	 */
-	var $search;
-
-	/**
 	 * @var Mission_Control
 	 */
 	private static $instance;
 
 	private function __construct() {
 
+		spl_autoload_register( array( $this, 'autoloader' ) );
+
 		$this->setup_constants();
-		$this->includes();
+
+		$this->include_files();
 
 		$this->views     = View_Collection::get_instance( $this );
 		$this->forms     = Form_Collection::get_instance( $this );
 		$this->parser    = Request_Parser::get_instance( $this );
 		$this->page_meta = Page_Meta::get_instance( $this );
-		$this->search    = new Search();
 
 		// TODO: Current View
 		// TODO: Current field
@@ -98,51 +95,54 @@ final class Mission_Control {
 	}
 
 	/**
+	 * @param string $class_name
+	 */
+	function autoloader( $class_name = '' ) {
+		
+		$class_name = explode( 'GV\\', $class_name );
+
+		if ( 1 === sizeof( $class_name ) ) {
+			return;
+		}
+
+		$class_name = $class_name[1];
+
+		$class_name_parts = explode( '_', $class_name );
+
+		// \GV\Search_(.*) will be in /search/
+		// \GV\Template_(.*) will be in /template/
+		$directory_name = strtolower( $class_name_parts[0] );
+
+		$file_name = str_replace( 'GV\\', '', $class_name );
+		$file_name = str_replace( '_', '-', $file_name );
+
+		$file_names = array(
+			sprintf( 'abstract-gv-%s.php', strtolower( $file_name ) ), // It could be an abstract class
+			sprintf( 'class-gv-%s.php', strtolower( $file_name ) ),
+		);
+
+		foreach ( $file_names as $name ) {
+			$file_path = GV_DIR . sprintf( 'includes/%s/%s', $directory_name, $name );
+			if( file_exists( $file_path ) ) {
+				include $file_path;
+			}
+		}
+
+	}
+
+	/**
 	 * Include required files
 	 *
 	 * @access private
 	 * @since 2.0
 	 * @return void
 	 */
-	private function includes() {
-
+	private function include_files() {
 		require_once GV_DIR . 'includes/common-functions.php';
-
-		// Handle the request
-		require_once GV_DIR . 'includes/class-gv-request-parser.php';
-
-		// Entries
-		require_once GV_DIR . 'includes/entry/class-gv-entry.php';
-		require_once GV_DIR . 'includes/entry/class-gv-entry-collection.php';
 		require_once GV_DIR . 'includes/entry/entry-functions.php';
-
-		// Forms
 		require_once GV_DIR . 'includes/form/form-functions.php';
-		require_once GV_DIR . 'includes/form/class-gv-form.php';
-		require_once GV_DIR . 'includes/form/class-gv-form-collection.php';
-
-		// Views
 		require_once GV_DIR . 'includes/view/view-functions.php';
-		require_once GV_DIR . 'includes/view/class-gv-view.php';
-		require_once GV_DIR . 'includes/view/class-gv-view-settings.php';
-		require_once GV_DIR . 'includes/view/class-gv-view-collection.php';
-
-		// Templates
 		require_once GV_DIR . 'includes/template/template-functions.php';
-		require_once GV_DIR . 'includes/template/class-gv-template-context.php';
-		require_once GV_DIR . 'includes/template/abstract-gv-template-item.php';
-		require_once GV_DIR . 'includes/template/class-gv-template-field.php';
-		require_once GV_DIR . 'includes/template/class-gv-template-widget.php';
-		require_once GV_DIR . 'includes/template/abstract-gv-template-zone.php';
-		require_once GV_DIR . 'includes/template/class-gv-template-fields-zone.php';
-		require_once GV_DIR . 'includes/template/class-gv-template-widgets-zone.php';
-		require_once GV_DIR . 'includes/template/class-gv-template.php';
-
-		// Page
-		require_once GV_DIR . 'includes/page/class-gv-page-meta.php';
-
-		// Search
-		require_once GV_DIR . 'includes/search/class-gv-search.php';
 	}
 
 	/**
