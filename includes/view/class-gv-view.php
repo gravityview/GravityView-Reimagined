@@ -191,8 +191,37 @@ final class View {
 		return $this->entry_collection;
 	}
 
-	function render() {
-		
+	/**
+	 * @param bool $echo Whether to print the output. If false, only return the output.
+	 *
+	 * @return string Rendered output
+	 */
+	function render( $echo = true ) {
+
+		ob_start();
+
+		echo '<h3>Testing from ' . __METHOD__ . '</h3>';
+
+		/** @var \GV\Entry $entry */
+		foreach( $this->get_entries() as $entry ) {
+			printf( 'Entry ID: %d connected to form %d created by %s <br />', $entry->get_id(), $entry->get_form_id(), $entry->get_created_by('wp_user')->display_name );
+		}
+
+		/** @var \GV\Template_Widgets_Zone $zone */
+		$footer = $this->get_context()->get_widget_location( 'footer' );
+
+		foreach ( $footer as $location => $zone ) {
+			echo "<h3>Rendering footer widget zone: {$location}</h3>";
+			$zone->render();
+		}
+
+		$rendered = ob_get_clean();
+
+		if( $echo ) {
+			echo $rendered;
+		}
+
+		return $rendered;
 	}
 
 }
