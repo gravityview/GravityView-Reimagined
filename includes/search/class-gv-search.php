@@ -62,10 +62,14 @@ class Search {
 	}
 
 	/**
-	 * @param $search_criteria
+	 * @param array|Search_Criteria $search_criteria
 	 */
 	private function set_search_criteria( $search_criteria = array() ) {
-		$this->search_criteria = new Search_Criteria( $search_criteria );
+		if( $search_criteria instanceof Search_Criteria ) {
+			$this->search_criteria = $search_criteria;
+		} else {
+			$this->search_criteria = new Search_Criteria( $search_criteria );
+		}
 	}
 
 	/**
@@ -82,7 +86,11 @@ class Search {
 	 */
 	private function fetch() {
 
-		$entries = GFAPI::get_entries( $this->form_ids, $this->search_criteria );
+		$search_criteria = $this->search_criteria->to_array();
+		$sorting = $this->search_criteria->sorting->to_array();
+		$paging = $this->search_criteria->paging->to_array();
+
+		$entries = GFAPI::get_entries( $this->form_ids, $search_criteria, $sorting, $paging );
 
 		$this->entry_collection = new Entry_Collection( $entries );
 	}

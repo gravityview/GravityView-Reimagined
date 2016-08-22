@@ -1,6 +1,12 @@
 <?php
 namespace GV;
 
+/**
+ * @todo migrate logic from frontend
+ * @see \GravityView_frontend::process_search_dates Migrate all this logic
+ *
+ * @package GV
+ */
 class Search_Criteria_Date extends Search_Parameter {
 
 	/**

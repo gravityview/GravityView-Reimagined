@@ -70,8 +70,19 @@ abstract class Search_Parameter_Collection extends ArrayObject {
 		$this->offsetSet( $key, $newval );
 	}
 
-	public function get( $key, $newval ) {
-		$this->offsetSet( $key, $newval );
+	/**
+	 * @param $key
+	 *
+	 * @return string
+	 */
+	public function get( $key ) {
+		$value = null;
+
+		if( isset( $this->{$key} ) ) {
+			$value = $this->{$key}->get();
+		}
+
+		return $value;
 	}
 
 	/**
@@ -87,7 +98,7 @@ abstract class Search_Parameter_Collection extends ArrayObject {
 
 		foreach ( static::$defaults as $key => $default_value ) {
 			if( isset( $this->{$key} ) ) {
-				$return["{$key}"] = $this->{$key}->get();
+				$return["{$key}"] = $this->get( $key );
 			}
 		}
 
