@@ -24,13 +24,20 @@ final class Request_Parser {
 	private $post_has_shortcode = false;
 
 	/**
+	 * There is a search query
+	 * @todo
+	 * @var boolean
+	 */
+	private $is_search = false;
+
+	/**
 	 * What context are we in currently? `multiple`/`directory`, `single`, `edit`
 	 * @var string
 	 */
 	private $context = '';
 
 	/**
-	 * @var bool
+	 * @var bool|string `false` if not single entry. Otherwise, a string of the entry slug or ID
 	 */
 	private $entry_slug = false;
 
@@ -62,7 +69,7 @@ final class Request_Parser {
 	 * Add the hooks to parse the content
 	 */
 	private function initialize() {
-		add_action( 'wp', array( $this, 'setup_vars' ), 10 );
+		add_action( 'wp', array( $this, 'setup_vars' ), 11 );
 		add_action( 'wp', array( $this, 'process_views_from_request' ), 20 );
 	}
 
@@ -86,7 +93,6 @@ final class Request_Parser {
 		if( '' !== $this->context ) {
 			return $this->context;
 		}
-
 
 		/**
 		 * @filter `gravityview_is_edit_entry` Whether we're currently on the Edit Entry screen \n
