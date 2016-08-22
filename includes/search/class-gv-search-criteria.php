@@ -3,17 +3,13 @@ namespace GV;
 
 use ArrayObject;
 
+
 /**
  * Search Configuration for View
  *
  * @see GFAPI::get_entries()
  */
-final class Search_Criteria extends ArrayObject {
-
-	/**
-	 * @var View
-	 */
-	private $view;
+class Search_Criteria extends ArrayObject {
 
 	/**
 	 * Entry status, ie: `active`
@@ -71,8 +67,6 @@ final class Search_Criteria extends ArrayObject {
 	 * @param int $flags
 	 */
 	public function __construct( $input = array(), $flags = 2 ) {
-		##$this->view = $GV_View;
-		#$this->view          = $view;
 
 		$this->sorting = new Search_Criteria_Sorting( rgar( $input, 'sorting' ) );
 		$this->paging = new Search_Criteria_Paging( rgar( $input, 'paging' ) );
@@ -156,7 +150,7 @@ final class Search_Criteria extends ArrayObject {
 
 	/**
 	 * Get only the values used by GFAPI::get_entries()' $search_criteria parameter
-	 * 
+	 *
 	 * @return array
 	 */
 	public function get_search_criteria() {
