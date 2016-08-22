@@ -12,9 +12,17 @@ final class Form extends \ArrayObject {
 	 */
 	function __construct( $id_or_array ) {
 
-		$form = is_array( $id_or_array ) ? $id_or_array : \GFAPI::get_form( $id_or_array );
+		if( ! is_array( $id_or_array ) && ! is_numeric( $id_or_array ) ) {
+			// TODO: Exception
+			return;
+		}
 
-		if( ! $form ) {
+		if ( ! is_array( $id_or_array ) ) {
+			$form = GFAPI::get_form( $id_or_array );
+		}
+
+		if( false === $form ) {
+			// TODO: Exception
 			return;
 		}
 
