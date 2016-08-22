@@ -34,6 +34,17 @@ final class View_Collection extends \ArrayIterator {
 	}
 
 	/**
+	 * Alias of valid()
+	 *
+	 * @see valid
+	 *
+	 * @return bool
+	 */
+	function has_views() {
+		return $this->valid();
+	}
+
+	/**
 	 * Get a single GV View, if it exists in the collection
 	 *
 	 * @param $id
