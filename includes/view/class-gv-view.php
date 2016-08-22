@@ -29,7 +29,8 @@ final class View {
 	private $template = null;
 
 	/**
-	 * @var Entry_Collection Set using {@see View::get_entries()}
+	 * @var null|Entry_Collection Only fetch entries when needed (JIT) to improve speed
+	 * @see View::get_entries() Entry collection set here
 	 */
 	private $entry_collection = null;
 
@@ -168,15 +169,25 @@ final class View {
 		return gravityview()->forms->get( $this->get_form_id() );
 	}
 
+	/**
+	 * @param array|Entry_Collection $entries
+	 */
 	function set_entries( $entries = array() ) {
 
+		// No entries passed
 		if( array() === $entries ) {
+
 			$gv_search = new Search( $this->get_form_id(), $this->search_criteria );
 
-			$this->entry_collection = $gv_search->get_entries();
+			$entry_collection = $gv_search->get_entries();
+
+		} elseif ( $entries instanceof Entry_Collection ) {
+			$entry_collection = $entries;
 		} else {
-			$this->entry_collection = new Entry_Collection( $entries );
+			$entry_collection = new Entry_Collection( $entries );
 		}
+
+		$this->entry_collection = $entry_collection;
 	}
 
 	/**
