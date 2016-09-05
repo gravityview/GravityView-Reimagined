@@ -13,10 +13,14 @@
  */
 
 /**
- * @return \GV\Mission_Control
+ * @return \GV\Mission_Control|null Returns null if PHP not 5.3 or greater
  */
 function gravityview() {
-	
+
+	if( version_compare( phpversion(), '5.3', '<') ) {
+		return null;
+	}
+
 	if( ! class_exists( '\GV\Mission_Control' ) ) {
 		include_once plugin_dir_path( __FILE__ ) . 'class-gv-mission-control.php';
 	}
