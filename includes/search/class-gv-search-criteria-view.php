@@ -14,6 +14,12 @@ final class Search_Criteria_View extends Search_Criteria {
 	private $view;
 
 	/**
+	 * @todo implement
+	 * @var bool
+	 */
+	private $cache = true;
+
+	/**
 	 * Search_Criteria_View constructor.
 	 *
 	 * @param View $view
