@@ -84,9 +84,9 @@ class Search {
 	 *
 	 * @uses GFAPI::get_entries()
 	 */
-	private function fetch() {
+	private function set_entry_collection() {
 
-		$search_criteria = $this->search_criteria->to_array();
+		$search_criteria = $this->search_criteria->to_array( false );
 		$sorting = $this->search_criteria->sorting->to_array();
 		$paging = $this->search_criteria->paging->to_array();
 
@@ -103,7 +103,7 @@ class Search {
 	 * @return void
 	 */
 	public function refresh() {
-		$this->fetch();
+		$this->set_entry_collection();
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Search {
 	function &get_entries() {
 
 		if( ! isset( $this->entry_collection ) ) {
-			$this->fetch();
+			$this->set_entry_collection();
 		}
 
 		return $this->entry_collection;
