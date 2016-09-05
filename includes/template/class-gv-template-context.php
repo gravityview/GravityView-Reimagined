@@ -41,8 +41,6 @@ class Template_Context extends \RecursiveArrayIterator {
 
 		$widget_zones = gravityview_get_widgets( $this->template->view->get_id(), $this->key );
 
-		$this->widgets = array();
-
 		foreach ( $widget_zones as $key => $widget_zone ) {
 
 			if( empty( $key ) ) { continue; }
@@ -74,7 +72,7 @@ class Template_Context extends \RecursiveArrayIterator {
 	 * @return array
 	 */
 	function get_widget_location( $widget_location ) {
-		return (array) rgar( $this->get_widget_zones(), $widget_location );
+		return rgar( $this->get_widget_zones(), $widget_location, array() );
 	}
 
 	/**
