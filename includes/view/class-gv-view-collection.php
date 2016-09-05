@@ -102,6 +102,12 @@ final class View_Collection extends \ArrayIterator {
 		return $view_to_add;
 	}
 
+	/**
+	 * Alias - here for IDE purposes (return is helpful)
+	 * @return View
+	 */
+	public function current() {
+		return parent::current();
 	}
 
 	/**
