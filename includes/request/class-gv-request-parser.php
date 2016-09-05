@@ -2,6 +2,8 @@
 namespace GV;
 
 use GravityView_frontend;
+use GravityView_View;
+
 /**
  * Handle parsing the post data to determine what content exists
  *
@@ -26,7 +28,6 @@ final class Request_Parser {
 
 	/**
 	 * There is a search query
-	 * @todo
 	 * @var boolean
 	 */
 	private $is_search = false;
@@ -119,10 +120,10 @@ final class Request_Parser {
 
 		if( $is_edit_entry ) {
 			$context = 'edit';
-		} else if( class_exists( '\GravityView_frontend' ) && $single = \GravityView_frontend::is_single_entry() ) {
+		} else if( class_exists( 'GravityView_frontend' ) && $single = GravityView_frontend::is_single_entry() ) {
 			$context = 'single';
 		} else if( class_exists( 'GravityView_View' ) ) {
-			$context = \GravityView_View::getInstance()->getContext();
+			$context = GravityView_View::getInstance()->getContext();
 		}
 
 		return $context;

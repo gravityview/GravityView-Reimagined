@@ -141,10 +141,16 @@ final class Entry extends \ArrayObject {
 		return get_post( $post_id );
 	}
 
+	/**
+	 * @return bool Is the entry starred?
+	 */
 	public function is_starred() {
 		return (bool) $this->__get( 'is_starred' );
 	}
 
+	/**
+	 * @return bool Is the entry read?
+	 */
 	public function is_read() {
 		return (bool) $this->__get( 'is_read' );
 	}

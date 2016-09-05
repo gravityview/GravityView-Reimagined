@@ -13,7 +13,7 @@ abstract class Search_Parameter {
 		if ( '' === $value || array() === $value || is_null( $value ) ) {
 			return;
 		}
-
+		
 		if( $this->is_valid( $value ) ) {
 			$this->value = $value;
 		} else {

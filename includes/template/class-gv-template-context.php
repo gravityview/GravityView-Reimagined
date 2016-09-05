@@ -9,9 +9,9 @@ class Template_Context extends \RecursiveArrayIterator {
 	private $template;
 
 	/** @var string slug for the context */
-	var $key = '';
+	private $key = '';
 
-	var $widgets = array();
+	private $widgets = array();
 
 	/**
 	 * Template_Context constructor.
