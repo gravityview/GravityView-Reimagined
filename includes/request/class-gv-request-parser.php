@@ -69,8 +69,8 @@ final class Request_Parser {
 	 * Add the hooks to parse the content
 	 */
 	private function initialize() {
-		add_action( 'wp', array( $this, 'setup_vars' ), 11 );
-		add_action( 'wp', array( $this, 'process_views_from_request' ), 20 );
+		add_action( 'wp', array( $this, 'process_views_from_request' ), 11 );
+		add_action( 'wp', array( $this, 'setup_vars' ), 20 );
 	}
 
 	/**
