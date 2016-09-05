@@ -12,7 +12,9 @@ final class View_Collection extends \ArrayIterator {
 	private static $instance;
 
 
-	public function __construct( Mission_Control $GV_Mission_Control, $flag = 2 ) {}
+	public function __construct( Mission_Control $GV_Mission_Control, $flag = 2 ) {
+		parent::__construct( array(), $flag );
+	}
 
 	/**
 	 * @return View_Collection
