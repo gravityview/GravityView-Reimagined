@@ -130,7 +130,12 @@ class Search_Criteria extends ArrayObject {
 		$this->field_filters['mode'] = $this->mode->get();
 	}
 
-	public function getArrayCopy( $include_all = true ) {
+	/**
+	 * @param bool $include_sorting_and_paging Include `sorting` and `paging` keys?
+	 *
+	 * @return array
+	 */
+	public function getArrayCopy( $include_sorting_and_paging = true ) {
 
 		$return = array(
 			'status' => $this->status->get(),
@@ -140,7 +145,7 @@ class Search_Criteria extends ArrayObject {
 			'field_filters' => $this->field_filters->to_array(),
 		);
 
-		if( $include_all ) {
+		if( $include_sorting_and_paging ) {
 			$return['sorting'] = $this->sorting->to_array();
 			$return['paging'] = $this->paging->to_array();
 		}
