@@ -40,7 +40,9 @@ class Template_Context extends \RecursiveArrayIterator {
 		}
 
 		$widget_zones = gravityview_get_widgets( $this->template->view->get_id(), $this->key );
-		
+
+		$this->widgets = array();
+
 		foreach ( $widget_zones as $key => $widget_zone ) {
 
 			if( empty( $key ) ) { continue; }
@@ -49,7 +51,6 @@ class Template_Context extends \RecursiveArrayIterator {
 			list( $location, $zone ) = array_pad( explode( '_', $key ), 2, '' );
 
 			$this->widgets[ $location ][ $zone ] = new Template_Widgets_Zone( $this->template, $widget_zone );
-			//Template_Widget( $widget_zone );
 		}
 	}
 
@@ -58,10 +59,7 @@ class Template_Context extends \RecursiveArrayIterator {
 	 */
 	function get_widget_zones() {
 
-		// Only set them up once
-		if( empty( $this->widgets ) ) {
-			$this->setup_widgets();
-		}
+		$this->setup_widgets();
 
 		return $this->widgets;
 	}
@@ -89,5 +87,41 @@ class Template_Context extends \RecursiveArrayIterator {
 	 */
 	function get_widget_zone( $widget_location, $widget_zone ) {
 		return (array) rgars( $this->get_widget_zones(), "$widget_location/$widget_zone" );
+	}
+
+	/**
+	 * Get all widgets in the current Context's widget zones
+	 *
+	 * @return array
+	 */
+	function get_widgets() {
+
+		$widget_zones = $this->get_widget_zones();
+
+		$widgets = array();
+
+		/** @var Template_Widgets_Zone $widget_zone */
+		foreach ( $widget_zones as $widget_locations ) {
+
+			foreach ( $widget_locations as $widget_zone ) {
+				$widgets = array_merge( $widgets, $widget_zone->getArrayCopy() );
+			}
+		}
+
+		return $widgets;
+	}
+
+	/**
+	 * Get all widgets in the current Contect by widget type
+	 *
+	 * @param string $widget_type_id Type of widget, like `search_bar` or `page_links`
+	 *
+	 * @return Template_Widget[]
+	 */
+	function get_widgets_by_type( $type = '' ) {
+
+		$widgets = $this->get_widgets();
+
+		return wp_list_filter( $widgets, array( 'id' => $type ) );
 	}
 }
