@@ -53,7 +53,7 @@ final class View_Collection extends \ArrayIterator {
 	 *
 	 * @return View
 	 */
-	function get( $id, $add_if_not_found = false ) {
+	function & get( $id, $add_if_not_found = false ) {
 
 		$views_found = wp_list_pluck( $this->get_views(), 'ID' );
 
