@@ -1,6 +1,7 @@
 <?php
 namespace GV;
 
+use GravityView_frontend;
 /**
  * Handle parsing the post data to determine what content exists
  *
@@ -80,6 +81,19 @@ final class Request_Parser {
 		$this->is_cpt = $this->is_custom_post_type();
 		$this->entry_slug = $this->is_single_entry();
 		$this->context = $this->get_context();
+		$this->is_search = $this->is_search();
+	}
+
+	/**
+	 * @return bool Is the current request a GravityView search?
+	 */
+	public function is_search() {
+
+		if ( class_exists( 'GravityView_frontend' ) ) {
+			return GravityView_frontend::getInstance()->is_searching();
+		}
+
+		return false;
 	}
 
 	/**
