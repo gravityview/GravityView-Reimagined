@@ -49,11 +49,12 @@ final class View_Collection extends \ArrayIterator {
 	/**
 	 * Get a single GV View, if it exists in the collection
 	 *
-	 * @param $id
+	 * @param int $id View ID to get
+	 * @param bool $add_if_not_found Whether to add the View if not already in the View collection
 	 *
 	 * @return View
 	 */
-	function & get( $id, $add_if_not_found = false ) {
+	function & get( $id, $add_if_not_found = true ) {
 
 		$views_found = wp_list_pluck( $this->get_views(), 'ID' );
 
